@@ -1,4 +1,4 @@
-package com.push_notification
+package io.subsuelo3d.pastor
 
 import io.flutter.embedding.android.FlutterActivity
 

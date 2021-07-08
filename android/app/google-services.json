@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "746037444859",
-    "project_id": "notificacion-7159d",
-    "storage_bucket": "notificacion-7159d.appspot.com"
+    "project_number": "150519391447",
+    "project_id": "subsuelo3d-pastor",
+    "storage_bucket": "subsuelo3d-pastor.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:746037444859:android:3bb43a51a02bf56f7f305e",
+        "mobilesdk_app_id": "1:150519391447:android:e76f6a21dc2f3c4e9dfc92",
         "android_client_info": {
-          "package_name": "com.push_notification"
+          "package_name": "io.subsuelo3d.pastor"
         }
       },
       "oauth_client": [
         {
-          "client_id": "746037444859-v8qgk6el1e1oee1hqqf74f72c65af4ns.apps.googleusercontent.com",
+          "client_id": "150519391447-6i4ujaqpqvg0f3uq0ekoct2a4705nglf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.push_notification",
-            "certificate_hash": "ffc0e8e4f0c868a7d45a46cfb2ff2d87fb436ac5"
+            "package_name": "io.subsuelo3d.pastor",
+            "certificate_hash": "66c1f55103eaf961adcf742af8b90e0b247ab197"
           }
         },
         {
-          "client_id": "746037444859-t9b32fnd3ivfv3mt0ilksp5nde2lbfha.apps.googleusercontent.com",
+          "client_id": "150519391447-gsgrmbhlaq57uh3dd2hnm1lnoa42dec2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAQqgVQ0G8Absu04zVQ0Ahqo44iTrd2rmo"
+          "current_key": "AIzaSyCYmbGzr4gt6DQ-3T1UnEGUJbunK-zsoN8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "746037444859-t9b32fnd3ivfv3mt0ilksp5nde2lbfha.apps.googleusercontent.com",
+              "client_id": "150519391447-gsgrmbhlaq57uh3dd2hnm1lnoa42dec2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
