@@ -1,3 +1,4 @@
 {
-    "dart.flutterSdkPath": "\\Users\\HP\\fvm\\versions\\2.2.1"
+    "dart.flutterSdkPath": "\\Users\\HP\\fvm\\versions\\2.2.1",
+    "git.ignoreLimitWarning": true
 }

@@ -4,9 +4,10 @@ import 'package:push_notificaction/src/data/login.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 
 
-class Login extends StatelessWidget {
+class Registro extends StatelessWidget {
 
 
+String _name      = '';
 String _email     = '';
 String _password  = '';
   @override
@@ -102,17 +103,18 @@ String _password  = '';
                children: [
                  Text('Ingreso', style: TextStyle(fontSize: 20)),
                  SizedBox(height: 20),
+                 _crearName(),
                  _crearEmail(),
                  _crearPassword(),
-                 SizedBox(height: 20),
-                 _button(c)
+                 SizedBox(height: 20),  
+                 _button(c)              
 
                ],
              ),
            ),
            TextButton(
-             child: Text('Crear cuenta'),
-             onPressed: ()=>Navigator.pushReplacementNamed(c,'registro'),            
+             child: Text('Iniciar sesion'),
+             onPressed: ()=>Navigator.pushReplacementNamed(c,'login'),            
              
            ),
           ],
@@ -122,9 +124,34 @@ String _password  = '';
   }
   
 
-  Widget _crearEmail(){
+  Widget _crearName(){
+    return StreamBuilder(
+      
+      builder: (c,s){
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: TextField(        
+        decoration: InputDecoration(
+          icon: Icon(Icons.account_circle, color: Colors.amber[800]),          
+          labelText: 'Usuario',
+          
+        ),
+        onChanged: (e){          
+          _name = e;
+        },
+      )
+    );
+      },
+
+      
+      );
 
     
+  }
+  Widget _crearEmail(){
+    return StreamBuilder(
+      
+      builder: (c,s){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: TextField(
@@ -137,8 +164,11 @@ String _password  = '';
         ),
         onChanged: (e){          
           _email = e;
+          
         },
-      )      
+      )
+    );
+      },      
       );
 
     
@@ -146,23 +176,27 @@ String _password  = '';
   
   Widget _crearPassword(){
 
-               return Container(
+    return StreamBuilder(
+     
+     builder: (c, s){
+            return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: TextField(
         obscureText: true,
         decoration: InputDecoration(
           icon: Icon(Icons.lock_outline, color: Colors.amber[800]),          
-          labelText: 'Contraseña',
+          labelText: 'Password',
           
         ),
         onChanged: (e){
           _password = e;
         },
-      )    
+      )
+    );
+     }
     );
     
   }
-
 
   Widget _button(context){
     LoginController _loginController = LoginController();
@@ -170,9 +204,9 @@ String _password  = '';
     return ElevatedButton(
       onPressed:()async{
         print(predf.token);
-        final result = await _loginController.sigInWitEmeil(_email, _password);
+        final result = await _loginController.createUser(_name, _email, _password);
         if(result == 'ok'){
-            // Fluttertoast.showToast(msg: 'Registro exitoso');
+            Fluttertoast.showToast(msg: 'Registro exitoso');
             Navigator.pushReplacementNamed(context, 'home');
         }else{
             Fluttertoast.showToast(msg: result);
@@ -182,4 +216,6 @@ String _password  = '';
 
     );
   }
+
+
 }
