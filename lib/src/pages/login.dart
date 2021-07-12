@@ -81,7 +81,11 @@ class Login extends StatelessWidget {
         Container(
           child: Text('También puedes ingresar con'),
         ),
-        _inputs()
+        _inputs(),
+        SizedBox(height: 10.0),
+        _button(context),
+        SizedBox(height: MediaQuery.of(context).size.height*0.15),
+        _footer()
       ],
     );
   }
@@ -133,13 +137,39 @@ class Login extends StatelessWidget {
         Container(
           decoration: themeData.decorationInputs(),
           margin: EdgeInsets.symmetric(horizontal: 40),
-          child: TextField(
-            
-            
+          child: TextField(                      
             decoration: themeData.inputDecoration(' Contraseña'),
           ),
         ),
       
       ],);
   }
+Widget _button(BuildContext context){   
+   final size = MediaQuery.of(context).size;
+    return Container(      
+      width: size.width * 0.8,
+      height: size.height*0.07,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape:  themeData.shape(),
+          primary: Colors.orangeAccent.withOpacity(0.9),          
+        ),
+        onPressed: (){}, 
+        child: Text('Ingresar')
+        
+        ),
+    );
+}
+
+Widget _footer(){
+
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+    
+    Text('Documentación'),
+    Text('Politicas de priva.'),
+    Text('Terminos y cond.')
+  ],);
+}
 }
