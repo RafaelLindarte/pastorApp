@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:push_notificaction/src/data/login.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
-
+import 'package:push_notificaction/src/style/theme.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class Login extends StatelessWidget {
-
 
 String _email     = '';
 String _password  = '';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(      
+    return Scaffold(
      body:Stack(
        children:[
          _crearFondo(context),
          _loginForm(context)
        ]
-     )      
+     )
     );
   }
 
@@ -52,11 +52,11 @@ String _password  = '';
       Positioned(child: circulo, top: 50,left: 30,),
       Positioned(child: circulo, top: 90,left: 90,),
       Positioned(child: circulo, top: 150,left:240,),
-      Positioned(child: circulo, top: 110,left: 170,),           
+      Positioned(child: circulo, top: 110,left: 170,),
       Container(
         padding: EdgeInsets.only(top: 60),
         child: Column(
-          
+
           children: [
             Icon(Icons.person_pin_circle, color: Colors.white, size: 70),
             SizedBox(height: 10,width: double.infinity,),
@@ -69,7 +69,7 @@ String _password  = '';
   }
 
   Widget _loginForm(c){
-    
+
     final size = MediaQuery.of(c).size;
     return SingleChildScrollView(
        child: Column(
@@ -78,11 +78,11 @@ String _password  = '';
              child: Container(
                height: 180,
              )
-           ), 
-                     
-           Container(   
-             padding: EdgeInsets.symmetric(vertical: 50),          
-             margin: EdgeInsets.symmetric(vertical: 30),          
+           ),
+
+           Container(
+             padding: EdgeInsets.symmetric(vertical: 50),
+             margin: EdgeInsets.symmetric(vertical: 30),
 
              width: size.width*0.8,
              decoration: BoxDecoration(
@@ -97,7 +97,7 @@ String _password  = '';
                    ),
                ]
              ),
-             child: Column(                  
+             child: Column(
 
                children: [
                  Text('Ingreso', style: TextStyle(fontSize: 20)),
@@ -112,19 +112,17 @@ String _password  = '';
            ),
            TextButton(
              child: Text('Crear cuenta'),
-             onPressed: ()=>Navigator.pushReplacementNamed(c,'registro'),            
-             
+             onPressed: ()=>Navigator.pushReplacementNamed(c,'registro'),
+
            ),
           ],
        ),
     );
 
   }
-  
 
   Widget _crearEmail(){
 
-    
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       child: TextField(
@@ -133,17 +131,16 @@ String _password  = '';
           icon: Icon(Icons.alternate_email, color: Colors.amber[800]),
           hintText: 'ejemplo@corre.com',
           labelText: 'Correo Electronico',
-          
+
         ),
-        onChanged: (e){          
+        onChanged: (e){
           _email = e;
         },
-      )      
+      )
       );
 
-    
   }
-  
+
   Widget _crearPassword(){
 
                return Container(
@@ -151,18 +148,17 @@ String _password  = '';
       child: TextField(
         obscureText: true,
         decoration: InputDecoration(
-          icon: Icon(Icons.lock_outline, color: Colors.amber[800]),          
+          icon: Icon(Icons.lock_outline, color: Colors.amber[800]),
           labelText: 'Contraseña',
-          
+
         ),
         onChanged: (e){
           _password = e;
         },
-      )    
+      )
     );
-    
-  }
 
+  }
 
   Widget _button(context){
     LoginController _loginController = LoginController();
@@ -177,9 +173,75 @@ String _password  = '';
         }else{
             Fluttertoast.showToast(msg: result);
         }
-      }, 
+      },
       child: Text('Registrarme'),
 
     );
   }
 }
+
+// class Login extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final themeData = StyleData();
+//     return SafeArea(
+//       child: DefaultTabController(
+//           length: 2,
+//           child: Scaffold(
+//             appBar: PreferredSize(
+//               preferredSize: Size(double.infinity, 60),
+//               child: Container(
+//                 child: TabBar(
+//                   tabs: [
+//                     Text(
+//                       'SIGN IN',
+//                       style: themeData.styleText,
+//                     ),
+//                     Text('SIGNUP', style: themeData.styleText),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             body: TabBarView(
+//               children: [
+//                 _bodyTab1(), 
+//                 Text('2')
+//                 ],
+//             ),
+//           )),
+//     );
+//   }
+
+//   Widget _bodyTab1() {
+//     return Column(
+//       children: [
+//         SizedBox(height:30.0 ),
+//         _buttonGoogle(),
+//         SizedBox(height:10.0 ),
+//         _buttonFacebook(),
+
+//       ],
+//     );
+//   }
+
+//   Widget _buttonGoogle() {
+//     return Container(
+//       child: SignInButton(
+//         Buttons.Google,
+//         text: 'Ingresa con Google',
+//         onPressed: () {},
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+//       ),
+//     );
+//   }
+//   Widget _buttonFacebook() {
+//     return Container(
+//       child: SignInButton(
+//         Buttons.Facebook,
+//         text: 'Ingresa con Facebook',
+//         onPressed: () {},
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+//       ),
+//     );
+//   }
+// }
