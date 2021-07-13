@@ -10,6 +10,11 @@
       "StackName": "amplify-pastorapp-dev-163706",
       "StackId": "arn:aws:cloudformation:us-east-1:476239637621:stack/amplify-pastorapp-dev-163706/7a970270-e422-11eb-b42f-1210b749d873",
       "AmplifyAppId": "d2634zl7jalsof"
+    },
+    "categories": {
+      "auth": {
+        "pastorapp36fdbf20": {}
+      }
     }
   }
 }
