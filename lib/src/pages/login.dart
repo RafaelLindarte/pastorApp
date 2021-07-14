@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:push_notificaction/src/data/cognito/cognito.dart';
 import 'package:push_notificaction/src/data/login.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:push_notificaction/src/style/theme.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
+
 
 class Login extends StatelessWidget {
+
+
+
+  
+  final cognito = Cognito(); 
   final themeData = StyleData();
+
+  String name  = '';
+  String email = '';
+  String pass  = '';
+  String conf  = '';
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -147,6 +162,7 @@ class Login extends StatelessWidget {
       ],
       );
   }
+
 Widget _button(BuildContext context){   
    final size = MediaQuery.of(context).size;
     return Container(      
@@ -184,6 +200,18 @@ Widget _bodyTab2(BuildContext context){
           decoration: themeData.decorationInputs(),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
+            onChanged: (e)=> name = e,
+            
+            
+            decoration: themeData.inputDecoration(' Nombre'),
+          ),
+        ),
+        SizedBox(height: 8,),
+        Container(
+          decoration: themeData.decorationInputs(),
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: TextField(
+            onChanged: (e)=> email = e,
             
             
             decoration: themeData.inputDecoration(' Correo'),
@@ -194,7 +222,9 @@ Widget _bodyTab2(BuildContext context){
         Container(
           decoration: themeData.decorationInputs(),
           margin: EdgeInsets.symmetric(horizontal: 40),
-          child: TextField(                      
+          child: TextField(               
+            onChanged: (e)=> pass = e,
+
             decoration: themeData.inputDecoration(' Contraseña'),
           ),
         ),
@@ -204,6 +234,8 @@ Widget _bodyTab2(BuildContext context){
           decoration: themeData.decorationInputs(),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(                      
+            onChanged: (e)=> conf = e,
+
             decoration: themeData.inputDecoration(' Confirma Contraseña'),
           ),
         ),
@@ -223,11 +255,49 @@ Widget _buttonRegistro(BuildContext context){
           shape:  themeData.shape(),
           primary: Colors.orangeAccent.withOpacity(0.9),          
         ),
-        onPressed: (){}, 
+        onPressed: () async{
+          print('a');
+          final result = await cognito.singUp(email.trim(), pass.trim(), conf.trim(), name.trim());
+          if(result == 'ok') {
+            print(result);
+          }else{
+            print(result);
+          }
+        }, 
         child: Text('Registrarme')
         
         ),
     );
 }
 
+
+
+final userPool = CognitoUserPool(
+  'us-east-1_ACURJmxp4',
+  '3if8rq6er825l3rnl9csfj4e3h',
+);
+
+void _singUp() async{
+  try{
+
+    final userAttributes = [
+  AttributeArg(name: 'email', value: 'ar2224518@gmail.com'),
+  AttributeArg(name: 'name', value: 'p'),
+];
+
+var data;
+try {
+  data = await userPool.signUp(
+    'ar2224518@gmail.com',
+    'andres',
+     userAttributes: userAttributes,
+   );
+} catch (e) {
+  print(e);
+}
+      // await _userService.signUp('ar2224518@gmail.com', 'and123rtaaaAs', 'prueba', 'pr');
+      print('a');
+  }catch(e){
+  }
+}
 }

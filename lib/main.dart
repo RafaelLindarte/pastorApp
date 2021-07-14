@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:push_notificaction/src/data/controller/active.dart';
 import 'package:push_notificaction/src/data/notificaciones.dart';
+import 'package:push_notificaction/src/pages/confirmar-registro.dart';
 import 'package:push_notificaction/src/pages/home.dart';
 import 'package:push_notificaction/src/pages/login.dart';
-import 'package:push_notificaction/src/pages/registro.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material App',
-        initialRoute: '/',
+        initialRoute: 'confirm',
         routes:{
           '/' :(BuildContext context){
             if(pref.uId!=null && pref.uId.toString().isNotEmpty){
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
             }
           },
           'login'       : (BuildContext context) => Login(),
-          'registro'    : (BuildContext context) => Registro(),
+          'confirm'     : (BuildContext context) => Confirm(),
           'home'        : (BuildContext context) => HomePage(),          
         }
       ),
