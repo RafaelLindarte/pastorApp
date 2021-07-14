@@ -23,12 +23,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  amazon_cognito_identity_dart_2: ^1.0.3
   cloud_firestore: ^2.3.0
   cupertino_icons: ^1.0.0
   firebase_auth: ^2.0.0
   firebase_core: ^1.1.1
   firebase_messaging: ^10.0.3
-  flutter_local_notifications: null
+  flutter_local_notifications: ^6.0.0
   flutter_signin_button: ^2.0.0
   fluttertoast: ^8.0.7
   provider: ^5.0.0

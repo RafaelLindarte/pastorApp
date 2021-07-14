@@ -11,13 +11,15 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(children: [
-          _banner(context),
-          Container(            
-            child: _body(context),
-            height: MediaQuery.of(context).size.height * 0.76,
-          ),
-        ]),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            _banner(context),
+            Container(            
+              child: _body(context),
+              height: MediaQuery.of(context).size.height * 0.76,
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -65,7 +67,7 @@ class Login extends StatelessWidget {
             ),
           ),
           body: TabBarView(
-            children: [_bodyTab1(context), Text('2')],
+            children: [_bodyTab1(context), _bodyTab2(context)],
           ),
         ));
   }
@@ -142,7 +144,8 @@ class Login extends StatelessWidget {
           ),
         ),
       
-      ],);
+      ],
+      );
   }
 Widget _button(BuildContext context){   
    final size = MediaQuery.of(context).size;
@@ -172,4 +175,59 @@ Widget _footer(){
     Text('Terminos y cond.')
   ],);
 }
+
+Widget _bodyTab2(BuildContext context){
+  return Column(
+    children: [
+        SizedBox(height: 30.0),
+        Container(
+          decoration: themeData.decorationInputs(),
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: TextField(
+            
+            
+            decoration: themeData.inputDecoration(' Correo'),
+          ),
+        ),
+        SizedBox(height: 8,),
+
+        Container(
+          decoration: themeData.decorationInputs(),
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: TextField(                      
+            decoration: themeData.inputDecoration(' Contraseña'),
+          ),
+        ),
+        SizedBox(height: 8,),
+
+        Container(
+          decoration: themeData.decorationInputs(),
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: TextField(                      
+            decoration: themeData.inputDecoration(' Confirma Contraseña'),
+          ),
+        ),
+        SizedBox(height: 8,),
+      _buttonRegistro(context)        
+    ],
+  );
+}
+
+Widget _buttonRegistro(BuildContext context){   
+   final size = MediaQuery.of(context).size;
+    return Container(      
+      width: size.width * 0.8,
+      height: size.height*0.07,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape:  themeData.shape(),
+          primary: Colors.orangeAccent.withOpacity(0.9),          
+        ),
+        onPressed: (){}, 
+        child: Text('Registrarme')
+        
+        ),
+    );
+}
+
 }
