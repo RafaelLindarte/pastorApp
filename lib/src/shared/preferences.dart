@@ -24,6 +24,12 @@ set token(final token){
 }
   get token => _preferences?.getString('token');
   get uId   => _preferences?.getString('uid');
+  
+Future<void> clearPreferences() async{
+  await _preferences?.setString('uid', '');
+
 }
+}
+
 
 

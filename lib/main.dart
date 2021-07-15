@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Material App',
-        initialRoute: 'confirm',
+        initialRoute: '/',
         routes:{
           '/' :(BuildContext context){
             if(pref.uId!=null && pref.uId.toString().isNotEmpty){

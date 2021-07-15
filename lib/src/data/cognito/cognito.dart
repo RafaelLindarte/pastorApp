@@ -1,10 +1,38 @@
+import 'dart:convert';
+
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
+import 'package:push_notificaction/src/shared/preferences.dart';
 
 class Cognito {
   final _userPool = CognitoUserPool(
     'us-east-1_ACURJmxp4',
     '3if8rq6er825l3rnl9csfj4e3h',
   );
+  final _preferences = Preferences();
+
+
+
+Future<String> singIn(String email, String pass) async{
+String message = '';
+  try{
+    final cognitoUser = CognitoUser(email, _userPool);
+    final authDetails = AuthenticationDetails(
+      username: email,
+      password: pass,
+    );
+    CognitoUserSession? session = await cognitoUser.authenticateUser(authDetails);
+    if(session!.getAccessToken().getJwtToken()!=null){
+
+      message = 'ok';
+      _preferences.uid = email;
+    }
+  }catch(e){
+      message = 'Usuario y/o contraseña no son correctos';
+      print(e);
+  }
+  return message;
+}
+
 
   Future<String> singUp(
       String email, String passw, String conf, String name) async {
@@ -22,10 +50,10 @@ class Cognito {
           AttributeArg(name: 'name', value: name)
         ];
 
-        final result =
-            await _userPool.signUp(email, passw, userAttributes: userAttributes);
+        final result = await _userPool.signUp(email, passw,
+            userAttributes: userAttributes);
         if (result.user != null) {
-          print(result.user);
+          _preferences.uid = email;
           message = 'ok';
         }
         print(message);
@@ -35,5 +63,20 @@ class Cognito {
       }
     }
     return message;
+  }
+
+  Future<bool> confirEmail(String codigo) async {
+    bool registrationConfirmed = false;
+
+    final cognitoUser = CognitoUser(_preferences.uId, _userPool);
+
+    try {
+      registrationConfirmed =
+          await cognitoUser.confirmRegistration(codigo.trim());
+          print(registrationConfirmed);
+    } catch (e) {
+      print(e);
+    }
+    return registrationConfirmed;
   }
 }

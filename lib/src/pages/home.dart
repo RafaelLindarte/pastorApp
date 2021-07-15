@@ -2,20 +2,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:push_notificaction/src/data/controller/active.dart';
+import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:push_notificaction/src/widgets/on_of.dart';
 
 
 
 class HomePage extends StatelessWidget {
-  const HomePage({ Key? key }) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
     final _notificationProvider = Provider.of<NotificationProvider>(context);
+    final _preferences = Preferences();
     return Scaffold(
       appBar: AppBar(
         title: Text('Pastor'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: ()async{
+              await _preferences.clearPreferences();
+              Navigator.pushReplacementNamed(context, 'login');
+
+          }, icon: Icon(Icons.exit_to_app_outlined))
+        ],
       ),
       body: Column(
         children: [

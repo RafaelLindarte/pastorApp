@@ -16,10 +16,12 @@ class Login extends StatelessWidget {
   final cognito = Cognito(); 
   final themeData = StyleData();
 
-  String name  = '';
-  String email = '';
-  String pass  = '';
-  String conf  = '';
+  String name   = '';
+  String email  = '';
+  String pass   = '';
+  String conf   = '';
+  String emaill = '';
+  String passwl = '';
 
 
   @override
@@ -144,7 +146,7 @@ class Login extends StatelessWidget {
           decoration: themeData.decorationInputs(),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
-            
+            onChanged: (e)=>emaill = e,
             
             decoration: themeData.inputDecoration(' Correo'),
           ),
@@ -154,7 +156,8 @@ class Login extends StatelessWidget {
         Container(
           decoration: themeData.decorationInputs(),
           margin: EdgeInsets.symmetric(horizontal: 40),
-          child: TextField(                      
+          child: TextField(  
+            onChanged:(e)=> passwl = e, 
             decoration: themeData.inputDecoration(' Contraseña'),
           ),
         ),
@@ -173,7 +176,16 @@ Widget _button(BuildContext context){
           shape:  themeData.shape(),
           primary: Colors.orangeAccent.withOpacity(0.9),          
         ),
-        onPressed: (){}, 
+        onPressed: () async{
+          final result = await cognito.singIn(emaill, passwl);
+          if(result=='ok'){
+            Fluttertoast.showToast(msg: 'Por favor espere');
+            Navigator.pushReplacementNamed(context, 'home');
+          }else{
+            Fluttertoast.showToast(msg: result);
+
+          }
+        }, 
         child: Text('Ingresar')
         
         ),
@@ -259,7 +271,8 @@ Widget _buttonRegistro(BuildContext context){
           print('a');
           final result = await cognito.singUp(email.trim(), pass.trim(), conf.trim(), name.trim());
           if(result == 'ok') {
-            print(result);
+            Navigator.pushReplacementNamed(context, 'confirm');
+            Fluttertoast.showToast(msg: 'Registro Exitoso');
           }else{
             print(result);
           }
