@@ -6,6 +6,7 @@ import 'package:push_notificaction/src/data/notificaciones.dart';
 import 'package:push_notificaction/src/pages/confirmar-registro.dart';
 import 'package:push_notificaction/src/pages/home.dart';
 import 'package:push_notificaction/src/pages/login.dart';
+import 'package:push_notificaction/src/pages/notifications.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 
 
@@ -43,9 +44,10 @@ class MyApp extends StatelessWidget {
                 return Login();
             }
           },
-          'login'       : (BuildContext context) => Login(),
-          'confirm'     : (BuildContext context) => Confirm(),
-          'home'        : (BuildContext context) => HomePage(),          
+          'login'           : (BuildContext context) => Login(),
+          'confirm'         : (BuildContext context) => Confirm(),
+          'home'            : (BuildContext context) => HomePage(),          
+          'notifications'   : (BuildContext context) => NotificacionesPage(),          
         }
       ),
     );
