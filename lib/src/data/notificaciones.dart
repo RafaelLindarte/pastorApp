@@ -1,24 +1,31 @@
 
+import 'dart:async';
+
+import 'package:audioplayers/audio_cache.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
 import 'package:push_notificaction/src/shared/preferences.dart';
-
-
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+// import 'package:audioplayers/audioplayers.dart';
 
 
 class Notificaciones {
-
   static FirebaseMessaging _messaging = FirebaseMessaging.instance;
+
+  static StreamController<String>  _messageStreamController = StreamController.broadcast();
+
+  static Stream<String> get messagesStream => _messageStreamController.stream;
   static Future<void>  _background(RemoteMessage message) async{
 
           print('_background ${message.messageId}');
           print(message.notification!.android!.sound);
           print(message.data);
-          
+              final player = AudioCache();
+          // // call this method when desired
+          await player.play('sound/sonido.mp3');
+
+          _messageStreamController.add(message.notification?.title ?? 'no titulo');
+
 
 
   }
@@ -26,12 +33,19 @@ class Notificaciones {
 
           print('_onBackground ${message.messageId}');
           print(message.data);
-
+             final player = AudioCache();
+          // call this method when desired
+          await player.play('sound/sonido.mp3');
+_messageStreamController.add(message.notification?.title ?? 'no titulo');
   }
   static Future<void>  abirMessage(RemoteMessage message) async{
 
-          print('abrir ${message.messageId}');  
+          print('abrir ${message.messageId}');
           print(message.data);
+          _messageStreamController.add(message.notification?.title ?? 'no titulo');
+             final player = AudioCache();
+          // call this method when desired
+          await player.play('sound/sonido.mp3');
           }
 
 
@@ -40,34 +54,25 @@ class Notificaciones {
     try{
 
       await Firebase.initializeApp();
-    
+
 
         final preferences =Preferences();
-    
-      NotificationSettings  settings = await _messaging.requestPermission(
-              sound: true
+
+       await _messaging.requestPermission(
+              sound: false
           );
+   
 
-      AndroidNotificationDetails(
-          'chanel',
-          'fcm',
-          'fcm',
-          playSound: true,
-          sound: RawResourceAndroidNotificationSound('sonido.mp3'),
-          importance: Importance.max,
-          priority: Priority.high
-      );
-
-              if(settings.authorizationStatus == AuthorizationStatus.authorized){
-                print('Autorizado');
-              }              
+              // // if(settings.authorizationStatus == AuthorizationStatus.authorized){
+              // //   print('Autorizado');
+              // // }
           final token = await _messaging.getToken();
           print(token);
           preferences.token= token;
           FirebaseMessaging.onBackgroundMessage(_background);
           FirebaseMessaging.onMessage.listen(_onbackground,);
           FirebaseMessaging.onMessageOpenedApp.listen(abirMessage);
-          
+
 
 
     }catch(e){
@@ -78,7 +83,8 @@ class Notificaciones {
 
 
 
-
- 
+static dispose(){
+  _messageStreamController.close();
 }
- 
+
+}

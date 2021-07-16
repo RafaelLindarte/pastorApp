@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:push_notificaction/src/data/cognito/cognito.dart';
-import 'package:push_notificaction/src/data/login.dart';
-import 'package:push_notificaction/src/shared/preferences.dart';
+// import 'package:push_notificaction/src/data/login.dart';
+// import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:push_notificaction/src/style/theme.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
@@ -290,27 +290,27 @@ final userPool = CognitoUserPool(
   '3if8rq6er825l3rnl9csfj4e3h',
 );
 
-void _singUp() async{
-  try{
+// void _singUp() async{
+//   try{
 
-    final userAttributes = [
-  AttributeArg(name: 'email', value: 'ar2224518@gmail.com'),
-  AttributeArg(name: 'name', value: 'p'),
-];
+//     final userAttributes = [
+//   AttributeArg(name: 'email', value: 'ar2224518@gmail.com'),
+//   AttributeArg(name: 'name', value: 'p'),
+// ];
 
-var data;
-try {
-  data = await userPool.signUp(
-    'ar2224518@gmail.com',
-    'andres',
-     userAttributes: userAttributes,
-   );
-} catch (e) {
-  print(e);
-}
-      // await _userService.signUp('ar2224518@gmail.com', 'and123rtaaaAs', 'prueba', 'pr');
-      print('a');
-  }catch(e){
-  }
-}
+// var data;
+// try {
+//   data = await userPool.signUp(
+//     'ar2224518@gmail.com',
+//     'andres',
+//      userAttributes: userAttributes,
+//    );
+// } catch (e) {
+//   print(e);
+// }
+//       // await _userService.signUp('ar2224518@gmail.com', 'and123rtaaaAs', 'prueba', 'pr');
+//       print('a');
+//   }catch(e){
+//   }
+// }
 }
