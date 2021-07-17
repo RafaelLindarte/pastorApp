@@ -16,15 +16,33 @@ intPreferencrs() async{
 }
 
 
+
 set uid(String id){
   _preferences?.setString('uid', id);
 }
 set token(final token){  
   _preferences?.setString('token', token);  
 }
-  get token => _preferences?.getString('token');
-  get uId   => _preferences?.getString('uid');
-  
+
+set name (String name){
+  _preferences?.setString('nombre', name);
+}
+set lastname (String lastname){
+  _preferences?.setString('apellido', lastname);
+}
+
+
+
+  get token    => _preferences?.getString('token');
+  get uId      => _preferences?.getString('uid');
+  get nombre   => _preferences?.getString('nombre');
+  get apellido => _preferences?.getString('apellido');
+
+
+Future<void> clearInfoRegistro() async{
+  await _preferences?.setString('nombre', '');
+  await _preferences?.setString('apellido', '');    
+}  
 Future<void> clearPreferences() async{
   await _preferences?.setString('uid', '');
 

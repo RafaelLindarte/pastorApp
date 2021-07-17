@@ -3,8 +3,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:push_notificaction/src/data/controller/active.dart';
 import 'package:push_notificaction/src/data/notificaciones.dart';
+import 'package:push_notificaction/src/data/provider/user-provider.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:push_notificaction/src/style/theme.dart';
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,12 +15,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> list = [
-    'Notificacion1',
-    'Notificacion8',
-    'Notificacion8',
-    'Notificacion9',
-  ];
+  List<String> list = ['Sismica','Forestal','Tormenta Tropical'];
+  final d = {
+    "evento":[
+      {
+        "name":"Sismca",
+        "status":true,
+      },
+      {
+        "name":"Forestal",
+        "status":true,
+      },
+      {
+        "name":"Tormenta tropical",
+        "status":true,
+      },  
+       ]
+  };
+  bool status = true;  
+
 
   @override
   void initState() {
@@ -33,132 +49,108 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final _notificationProvider = Provider.of<NotificationProvider>(context);
     final _preferences = Preferences();
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orangeAccent.withOpacity(0.9),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-                onPressed: () {
-                  _preferences.clearPreferences();
-                  Navigator.pushNamed(context, 'login');
-                  Fluttertoast.showToast(msg: 'Salir de la cuenta');
-                }, icon: Icon(Icons.account_circle_sharp)),
-            Text('Pastor'),
-            IconButton(onPressed: () {
-              Fluttertoast.showToast(msg: 'Agregar estación');
-            }, icon: Icon(Icons.add)),
-          ],
+  List<dynamic>  dd = d['evento']!.toList();
+
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.red.withOpacity(0.9),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    _preferences.clearPreferences();
+                    Navigator.pushNamed(context, 'login');
+                    Fluttertoast.showToast(msg: 'Salir de la cuenta');
+                  }, icon: Icon(Icons.account_circle_sharp)),
+              Text('Pastor'),
+              IconButton(onPressed: () {
+                Fluttertoast.showToast(msg: 'Agregar estación');
+              }, icon: Icon(Icons.add)),
+            ],
+          ),
         ),
-      ),
-      body: Container(
-        color: Colors.grey.withOpacity(0.16),
-        padding: EdgeInsets.only(top: 30),
-        child: GridView.builder(
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              child: Card(
-                  elevation: 4.0,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                              onPressed: () {},
-                              icon: FaIcon(
-                                FontAwesomeIcons.water,
-                                color: Colors.blue,
-                              )),
-                          IconButton(
-                              onPressed: () {
-                                Fluttertoast.showToast(msg: 'On/Off notificaciones');
-                              },
-                              icon: FaIcon(
-                                FontAwesomeIcons.powerOff,
-                                color: Colors.green,
-                              ))
-                        ],
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Center(
-                        child: Text(
-                          'Fluvial',
-                          style: TextStyle(fontSize: 25),
+        body: Container(
+          color: Colors.grey.withOpacity(0.16),
+          padding: EdgeInsets.only(top: 30),
+          child: GridView.builder(
+            gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            itemBuilder: (context, index) {
+              print(dd);
+              return _cardEstaciones( dd[index]);
+            },
+            itemCount:dd.length,
+          ),
+        ),
+             ),
+    );
+  }
+  Widget _cardEstaciones(dynamic data){      
+final styleData = StyleData();
+final _notificationProvider = Provider.of<NotificationProvider>(context);
+final userProvider = USerProvider();
+
+    return GestureDetector(
+                child: Card(
+                    elevation: 4.0,
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: FaIcon(
+                                  FontAwesomeIcons.water,
+                                  color: Colors.blue,
+                                )),
+                            IconButton(
+                                onPressed: () async {
+                                  await userProvider.onOf();     
+
+                                  // if(data['status']==false){
+                                    setState(() {
+                                      data['status'] = !data['status'];
+                                     });
+
+                                        print(d['evento']);
+                                  // }
+                                  //    if(_notificationProvider.active){
+                                  //     _notificationProvider.isActive = false;
+                                  // }else{
+                                  //     _notificationProvider.isActive = true;
+                                  // }                                
+                                },
+                                icon: FaIcon(
+                                  FontAwesomeIcons.powerOff,
+                                   color: (data['status']) ? Colors.green: Colors.red,
+                                ))
+                          ],
                         ),
-                      )
-                    ],
-                  )
-                  ),
-                  onTap: (){
-                    Navigator.pushNamed(context, 'notifications');
-                  },
-            );
-          },
-          itemCount: 6,
-        ),
-      ),
-      // body: Column(
-      //   children: [
-      //     Container(
-      //       alignment: Alignment.center,
-      //       height: MediaQuery.of(context).size.height*0.3,
-      //       child: ElevatedButton(
-      //         child: TextOnOf(),
-      //         onPressed: () async{
-      //               if(_notificationProvider.active){
-      //                   _notificationProvider.isActive = false;
-      //               }else{
-      //                   _notificationProvider.isActive = true;
-      //               }
-      //             }
-      //       ),
-      //     ),
-      //     Container(
-      //       alignment: Alignment.center,
-      //       child: Text('Tus Notificaciones', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),)),
-      //     SizedBox(height: 10.0,),
-      //     // Container(
-      //     //   child: FutureBuilder(
-      //     //     builder:(context, snaphsot){
-      //     //       if(snaphsot.hasData){
-      //     //         return Center(child: CircularProgressIndicator());
-      //     //       }else{
-      //     //         return Center(child: Text('listar notificaciones'));
-      //     //       }
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Center(
+                             //sismica
+      // tormenta tropical
+      //forestal
+                          child: Text(
+                            '${data['name']}',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )
+                      ],
+                    )
+                    ),
+                    onTap: (){
+                      Navigator.pushNamed(context, 'notifications');
+                    },
+              );
 
-      //     //     }
-      //     //   )
-      //     // )
-      //     Container(
-      //       height: MediaQuery.of(context).size.height*0.3,
-      //       child: ListView.builder(
-      //         shrinkWrap: true,
-      //         itemBuilder: (context, item){
 
-      //           return _listNotification(list[item]);
-      //         },
-      //         itemCount: list.length,
-      //         ),
-      //     )
-
-      //   ],
-      // ),
-    );
   }
 
-  Widget _listNotification(String item) {
-    return Card(
-      child: Container(
-        child: Text(item),
-      ),
-    );
-  }
 }

@@ -1,6 +1,9 @@
 
 
+
+
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
+import 'package:push_notificaction/src/data/provider/user-provider.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 
 class Cognito {
@@ -57,7 +60,11 @@ String message = '';
           message = 'ok';
         }
         print(message);
-      } catch (e) {
+      } on CognitoClientException {                
+          message = 'La contraseña debe por lo menos una letra miniscula';        
+
+      }
+       catch (e) {
         print('Cognito SingUP Error $e');
         return '${Future.error(e)}';
       }
@@ -67,14 +74,22 @@ String message = '';
 
   Future<bool> confirEmail(String codigo) async {
     bool registrationConfirmed = false;
-
+    final uSerProvider= USerProvider();
+      
     final cognitoUser = CognitoUser(_preferences.uId, _userPool);
 
     try {
       registrationConfirmed =
           await cognitoUser.confirmRegistration(codigo.trim());
+      if(registrationConfirmed) {
+         final result = await uSerProvider.addUser(_preferences.nombre,_preferences.apellido , _preferences.uId, _preferences.token);
+         if(result == 'ok'){
+            _preferences.clearInfoRegistro();
+         }
+      }
           print(registrationConfirmed);
     } catch (e) {
+      print('2222');
       print(e);
     }
     return registrationConfirmed;

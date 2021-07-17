@@ -53,28 +53,15 @@ _messageStreamController.add(message.notification?.title ?? 'no titulo');
     try{
 
       await Firebase.initializeApp();
-
-
         final preferences =Preferences();
 
-       await _messaging.requestPermission(
-              sound: false
-          );
-   
-
-              // // if(settings.authorizationStatus == AuthorizationStatus.authorized){
-              // //   print('Autorizado');
-              // // }
-          final token = await _messaging.getToken();
-          print(token);
+       await _messaging.requestPermission(sound: false );   
+         final token = await _messaging.getToken();          
           preferences.token= token;
           FirebaseMessaging.onBackgroundMessage(_background);
           FirebaseMessaging.onMessage.listen(_onbackground,);
           FirebaseMessaging.onMessageOpenedApp.listen(abirMessage);
-
-
-
-    }catch(e){
+}catch(e){
       print('aaaaaaaaaaaaaaa');
       print(e);
     }

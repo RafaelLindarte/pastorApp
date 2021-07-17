@@ -4,6 +4,7 @@ import 'package:push_notificaction/src/data/cognito/cognito.dart';
 
 import 'package:push_notificaction/src/style/theme.dart';
 
+// ignore: must_be_immutable
 class Confirm extends StatelessWidget {
   final themeData = StyleData();
   String _codigo = '';
@@ -15,7 +16,7 @@ class Confirm extends StatelessWidget {
         appBar: AppBar(
           title: Text('pastor'),
           centerTitle: true,
-          backgroundColor: Colors.orangeAccent.withOpacity(0.9)
+          backgroundColor: Colors.red.withOpacity(0.9)
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -69,8 +70,8 @@ class Confirm extends StatelessWidget {
             if(result){
             Fluttertoast.showToast(msg: 'Verficacion exitosa');
               Navigator.pushReplacementNamed(context, 'home');
-
-
+            }else{
+              Fluttertoast.showToast(msg: 'Codigo Incorrecto');
             }
           }
 
@@ -78,7 +79,7 @@ class Confirm extends StatelessWidget {
         child: Text('Confirmar'),
          style: ElevatedButton.styleFrom(
           shape:  themeData.shape(),
-          primary: Colors.orangeAccent.withOpacity(0.9),          
+          primary: Colors.red.withOpacity(0.9),          
         )
         )
         );

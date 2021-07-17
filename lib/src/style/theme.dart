@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:push_notificaction/src/data/controller/active.dart';
 
 
 
@@ -39,5 +41,15 @@ InputDecoration inputDecoration(String hintText ){// decoracion del input
   );
 }
 
+Color colorOnOf(BuildContext context){
+    final _notificationProvider = Provider.of<NotificationProvider>(context);
+  
+  if(!_notificationProvider.active){
+    return Colors.green;
+  }else {
+    return Colors.red;
+  }
+
+}
 
 }

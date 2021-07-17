@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:push_notificaction/src/data/cognito/cognito.dart';
 // import 'package:push_notificaction/src/data/login.dart';
-// import 'package:push_notificaction/src/shared/preferences.dart';
+import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:push_notificaction/src/style/theme.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 
 
+// ignore: must_be_immutable
 class Login extends StatelessWidget {
 
 
@@ -20,9 +20,10 @@ class Login extends StatelessWidget {
   String email  = '';
   String pass   = '';
   String conf   = '';
+  String apee   = '';
   String emaill = '';
   String passwl = '';
-
+  final _preferences = Preferences();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class Login extends StatelessWidget {
         ),
         height: MediaQuery.of(context).size.height * 0.2,
         width: double.infinity,
-        color: Colors.orangeAccent.withOpacity(0.9),        
+        color: Colors.red.withOpacity(0.9),        
         );
   }
 
@@ -76,9 +77,9 @@ class Login extends StatelessWidget {
                 tabs: [
                   Text(
                     'SIGN IN',
-                    style: themeData.styles(20.0, Colors.orangeAccent),
+                    style: themeData.styles(20.0, Colors.red),
                   ),
-                  Text('SIGNUP', style: themeData.styles(20.0, Colors.orangeAccent)),
+                  Text('SIGNUP', style: themeData.styles(20.0, Colors.red)),
                 ],
               ),
             ),
@@ -117,7 +118,9 @@ class Login extends StatelessWidget {
       child: SignInButton(
         Buttons.Google,
         text: 'Ingresa con Google',
-        onPressed: () {},
+        onPressed: () {
+          Fluttertoast.showToast(msg: 'Login con Google');
+        },
         shape:  themeData.shape(),
       ),
     );
@@ -131,7 +134,9 @@ class Login extends StatelessWidget {
       child: SignInButton(
         Buttons.Facebook,
         text: 'Ingresa con Facebook',
-        onPressed: () {},
+        onPressed: () {
+          Fluttertoast.showToast(msg: 'Login con Facebook');
+        },
         shape: themeData.shape(),
       ),
     );
@@ -174,7 +179,7 @@ Widget _button(BuildContext context){
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape:  themeData.shape(),
-          primary: Colors.orangeAccent.withOpacity(0.9),          
+          primary: Colors.red.withOpacity(0.9),          
         ),
         onPressed: () async{
           final result = await cognito.singIn(emaill, passwl);
@@ -216,6 +221,17 @@ Widget _bodyTab2(BuildContext context){
             
             
             decoration: themeData.inputDecoration(' Nombre'),
+          ),
+        ),
+        SizedBox(height: 8,),
+        Container(
+          decoration: themeData.decorationInputs(),
+          margin: EdgeInsets.symmetric(horizontal: 40),
+          child: TextField(
+            onChanged: (e)=> apee = e ,
+            
+            
+            decoration: themeData.inputDecoration(' Apellido'),
           ),
         ),
         SizedBox(height: 8,),
@@ -265,52 +281,23 @@ Widget _buttonRegistro(BuildContext context){
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           shape:  themeData.shape(),
-          primary: Colors.orangeAccent.withOpacity(0.9),          
+          primary: Colors.red.withOpacity(0.9),          
         ),
         onPressed: () async{
           print('a');
           final result = await cognito.singUp(email.trim(), pass.trim(), conf.trim(), name.trim());
           if(result == 'ok') {
+            _preferences.name = name.trim();
+            _preferences.lastname = apee.trim();
             Navigator.pushReplacementNamed(context, 'confirm');
             Fluttertoast.showToast(msg: 'Registro Exitoso');
           }else{
-            print(result);
-          }
+            Fluttertoast.showToast(msg: result);
+                      }
         }, 
         child: Text('Registrarme')
         
         ),
     );
 }
-
-
-
-final userPool = CognitoUserPool(
-  'us-east-1_ACURJmxp4',
-  '3if8rq6er825l3rnl9csfj4e3h',
-);
-
-// void _singUp() async{
-//   try{
-
-//     final userAttributes = [
-//   AttributeArg(name: 'email', value: 'ar2224518@gmail.com'),
-//   AttributeArg(name: 'name', value: 'p'),
-// ];
-
-// var data;
-// try {
-//   data = await userPool.signUp(
-//     'ar2224518@gmail.com',
-//     'andres',
-//      userAttributes: userAttributes,
-//    );
-// } catch (e) {
-//   print(e);
-// }
-//       // await _userService.signUp('ar2224518@gmail.com', 'and123rtaaaAs', 'prueba', 'pr');
-//       print('a');
-//   }catch(e){
-//   }
-// }
 }
