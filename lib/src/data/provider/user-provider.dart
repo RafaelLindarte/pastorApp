@@ -31,7 +31,7 @@ class USerProvider {
       }
     } catch (e) {
       print('*****************');
-      print(e);
+      print('UserProvider addUser ERROR: $e');
     }
 
     return message;
@@ -49,7 +49,7 @@ class USerProvider {
           }); //TODO: Realizar modelo de datos
       final result = json.decode(response.body);
 
-      //Guardando subscriptionArn del usuario
+      //Guardando subscriptionArn del usuario en el controller de notificaciones
       if (result['user']['notificationStatus'] == 'Active') {
         String subscriptionArn = result['user']['subscriptionArn'];
         if (subscriptionArn != null) {
@@ -61,7 +61,7 @@ class USerProvider {
               body: json.encode(body2),
               headers: {'Content-Type': 'application/json'});
 
-          final body3 = {
+          final body3 = {//body para inctivar el status de las notficaciones
             "action": "updateUser",
             "email": preferences.uId.toString().trim(),
             "updateKey": "notificationStatus",
@@ -70,7 +70,7 @@ class USerProvider {
           await http.post(Uri.parse(url), body: json.encode(body3), headers: {
             'Content-Type': 'application/json'
           }); //actualizando status: inactive
-          final body4 = {
+          final body4 = {//body para limpiar el suscriptionARN
             "action": "updateUser",
             "email": preferences.uId.toString().trim(),
             "updateKey": "subscriptionArn",
@@ -120,6 +120,9 @@ class USerProvider {
         }); //Actualizando SubscriptionArn
 
       }
-    } catch (e) {}
+    } catch (e) {
+
+      print(' UserProvider ON/OF ERROR: $e');
+    }
   }
 }

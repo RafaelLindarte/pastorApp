@@ -6,6 +6,8 @@ import 'package:push_notificaction/src/style/theme.dart';
 
 // ignore: must_be_immutable
 class Confirm extends StatelessWidget {
+  
+
   final themeData = StyleData();
   String _codigo = '';
   final _cognito = Cognito();
@@ -41,8 +43,8 @@ class Confirm extends StatelessWidget {
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 child: TextField(
                   onChanged: (e)=> _codigo = e,
-
-                  decoration: themeData.inputDecoration(' Ingresa el código'),
+                  keyboardType: TextInputType.number,
+                  decoration: themeData.inputDecoration(' Ingresa el código', false),
                 ),
               ),
                SizedBox(
@@ -85,3 +87,5 @@ class Confirm extends StatelessWidget {
         );
   }
 }
+
+

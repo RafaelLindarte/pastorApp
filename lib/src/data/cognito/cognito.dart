@@ -94,4 +94,55 @@ String message = '';
     }
     return registrationConfirmed;
   }
+
+
+
+  Future<String> enviarCodigo(String email) async{
+    String message = '';
+    try{
+        if(email.trim() ==''){
+          message  = 'Por favor ingrese un correo electronico';
+        }else{
+              final cognitoUSer =CognitoUser(email.trim(), _userPool);
+        final send =      await cognitoUSer.forgotPassword();
+        if(send!=null){
+          message = 'ok';
+        }
+
+          }
+    }catch(e){
+        print(e);
+        message = 'error, intente nuevamente';
+    }
+    return message;
+
+  }
+
+  Future<String> changePassword(String  email, String code, String password) async{
+    String message = '';
+    try{
+        if(code.trim()== ''){
+          message = 'Por favor ingrese el código';
+        }else if(password.trim().length<8){
+            message = 'La contraseña debe tener más de 8 caracteres';                        
+        }else{
+              final cognitoUSer =CognitoUser(email.trim(), _userPool);
+
+          bool confirmPassword = await cognitoUSer.confirmPassword(code, password);
+          if(confirmPassword){
+            message = 'ok';
+          }
+        }
+    }catch(e){
+      print(e);
+      message = 'error, intente nuevamente';
+    }
+    
+    
+    return message;
+
+  }
+
+
+
 }

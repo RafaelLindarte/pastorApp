@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:push_notificaction/src/data/cognito/cognito.dart';
+import 'package:push_notificaction/src/pages/home.dart';
 // import 'package:push_notificaction/src/data/login.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:push_notificaction/src/style/theme.dart';
@@ -104,7 +105,14 @@ class Login extends StatelessWidget {
         _inputs(),
         SizedBox(height: 10.0),
         _button(context),
-        SizedBox(height: MediaQuery.of(context).size.height*0.15),
+        SizedBox(height: 17,),        
+      GestureDetector(
+        child:Text('Olvide mi contraseña'),
+        onTap: (){
+          Navigator.pushNamed(context, 'recuperar');
+        },
+      ),
+        SizedBox(height: MediaQuery.of(context).size.height*0.1),
         _footer()
       ],
     );
@@ -152,8 +160,8 @@ class Login extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             onChanged: (e)=>emaill = e,
-            
-            decoration: themeData.inputDecoration(' Correo'),
+            keyboardType: TextInputType.emailAddress,
+            decoration: themeData.inputDecoration(' Correo', false),
           ),
         ),
         SizedBox(height: 8,),
@@ -162,8 +170,9 @@ class Login extends StatelessWidget {
           decoration: themeData.decorationInputs(),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(  
+            obscureText:true,
             onChanged:(e)=> passwl = e, 
-            decoration: themeData.inputDecoration(' Contraseña'),
+            decoration: themeData.inputDecoration(' Contraseña', true),
           ),
         ),
       
@@ -186,6 +195,7 @@ Widget _button(BuildContext context){
           if(result=='ok'){
             Fluttertoast.showToast(msg: 'Por favor espere');
             Navigator.pushReplacementNamed(context, 'home');
+            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomePage()));
           }else{
             Fluttertoast.showToast(msg: result);
 
@@ -220,7 +230,7 @@ Widget _bodyTab2(BuildContext context){
             onChanged: (e)=> name = e,
             
             
-            decoration: themeData.inputDecoration(' Nombre'),
+            decoration: themeData.inputDecoration(' Nombre', false),
           ),
         ),
         SizedBox(height: 8,),
@@ -231,7 +241,7 @@ Widget _bodyTab2(BuildContext context){
             onChanged: (e)=> apee = e ,
             
             
-            decoration: themeData.inputDecoration(' Apellido'),
+            decoration: themeData.inputDecoration(' Apellido', false),
           ),
         ),
         SizedBox(height: 8,),
@@ -240,9 +250,8 @@ Widget _bodyTab2(BuildContext context){
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             onChanged: (e)=> email = e,
-            
-            
-            decoration: themeData.inputDecoration(' Correo'),
+            keyboardType: TextInputType.emailAddress,                    
+            decoration: themeData.inputDecoration(' Correo', false),
           ),
         ),
         SizedBox(height: 8,),
@@ -251,9 +260,10 @@ Widget _bodyTab2(BuildContext context){
           decoration: themeData.decorationInputs(),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(               
+            obscureText: true,
             onChanged: (e)=> pass = e,
 
-            decoration: themeData.inputDecoration(' Contraseña'),
+            decoration: themeData.inputDecoration(' Contraseña', true),
           ),
         ),
         SizedBox(height: 8,),
@@ -263,12 +273,13 @@ Widget _bodyTab2(BuildContext context){
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(                      
             onChanged: (e)=> conf = e,
+            obscureText: true,
 
-            decoration: themeData.inputDecoration(' Confirma Contraseña'),
+            decoration: themeData.inputDecoration(' Confirma Contraseña', true),
           ),
         ),
         SizedBox(height: 8,),
-      _buttonRegistro(context)        
+      _buttonRegistro(context),      
     ],
   );
 }

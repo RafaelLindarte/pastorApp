@@ -7,6 +7,7 @@ import 'package:push_notificaction/src/pages/confirmar-registro.dart';
 import 'package:push_notificaction/src/pages/home.dart';
 import 'package:push_notificaction/src/pages/login.dart';
 import 'package:push_notificaction/src/pages/notifications.dart';
+import 'package:push_notificaction/src/pages/recuperar-contrase%C3%B1a.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 
 
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
           'confirm'         : (BuildContext context) => Confirm(),
           'home'            : (BuildContext context) => HomePage(),          
           'notifications'   : (BuildContext context) => NotificacionesPage(),          
+          'recuperar'       : (BuildContext context) => RecuperarContrasena(),          
         }
       ),
     );

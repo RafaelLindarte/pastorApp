@@ -8,7 +8,7 @@ class NotificacionesPage extends StatelessWidget {
         appBar: AppBar(
           title: Text('Notificaciones'),
           centerTitle: true,
-          backgroundColor: Colors.orangeAccent.withOpacity(0.9),
+          backgroundColor: Colors.red.withOpacity(0.9),
         ),
         body: Container(
           color: Colors.grey.withOpacity(0.16),

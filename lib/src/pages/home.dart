@@ -7,7 +7,6 @@ import 'package:push_notificaction/src/data/provider/user-provider.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:push_notificaction/src/style/theme.dart';
-import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   final d = {
     "evento":[
       {
-        "name":"Sismca",
+        "name":"Sismica",
         "status":true,
       },
       {
@@ -29,15 +28,27 @@ class _HomePageState extends State<HomePage> {
       {
         "name":"Tormenta tropical",
         "status":true,
-      },  
+      },
        ]
   };
-  bool status = true;  
+  bool status = true;
 
 
   @override
   void initState() {
     super.initState();
+    final _preferences = Preferences();
+
+        if(_preferences.iswelcome ==null){
+            _preferences.isWelcome = 'ok';
+            print('00000000000000000000000000');
+            if(mounted){
+             Future.delayed(Duration.zero, () {
+      this.welcome();
+          });
+              
+            }
+        }
     Notificaciones.messagesStream.listen((event) {
       Fluttertoast.showToast(msg: 'Recibiste una notificacón');
 
@@ -45,6 +56,25 @@ class _HomePageState extends State<HomePage> {
         list.add(event);
       });
     });
+  }
+
+
+  void welcome(){
+    showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+            elevation: 4.0,
+            content: Text('Bienvenido'),
+            actions: [
+              TextButton(onPressed: (){
+                Navigator.pop(context);
+              }, child: Text('Continuar')
+              )
+            ],
+        );
+      }
+      );     
   }
 
   @override
@@ -55,6 +85,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.red.withOpacity(0.9),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,7 +119,7 @@ class _HomePageState extends State<HomePage> {
              ),
     );
   }
-  Widget _cardEstaciones(dynamic data){      
+  Widget _cardEstaciones(dynamic data){
 final styleData = StyleData();
 final _notificationProvider = Provider.of<NotificationProvider>(context);
 final userProvider = USerProvider();
@@ -109,7 +140,7 @@ final userProvider = USerProvider();
                                 )),
                             IconButton(
                                 onPressed: () async {
-                                  await userProvider.onOf();     
+                                  await userProvider.onOf();
 
                                   // if(data['status']==false){
                                     setState(() {
@@ -122,7 +153,7 @@ final userProvider = USerProvider();
                                   //     _notificationProvider.isActive = false;
                                   // }else{
                                   //     _notificationProvider.isActive = true;
-                                  // }                                
+                                  // }
                                 },
                                 icon: FaIcon(
                                   FontAwesomeIcons.powerOff,
@@ -134,9 +165,6 @@ final userProvider = USerProvider();
                           height: 30,
                         ),
                         Center(
-                             //sismica
-      // tormenta tropical
-      //forestal
                           child: Text(
                             '${data['name']}',
                             style: TextStyle(fontSize: 20),

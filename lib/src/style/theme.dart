@@ -34,10 +34,12 @@ BoxDecoration decorationInputs(){ // decora el fondo de  los inputs, estilo de u
           );
 }
 
-InputDecoration inputDecoration(String hintText ){// decoracion del input
+InputDecoration inputDecoration(String hintTextS, bool icon ){// decoracion del input
   return InputDecoration(
     border: InputBorder.none,
-                    hintText: hintText
+    hintText: hintTextS,
+    // suffixIcon: (icon)? Icon(Icons.view):Text(''),
+    
   );
 }
 
