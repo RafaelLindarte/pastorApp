@@ -6,6 +6,7 @@ import 'package:push_notificaction/src/shared/preferences.dart';
 class USerProvider {
   String url =
       'https://7nuyrr9ca3.execute-api.us-east-1.amazonaws.com/dev/controllerUsers';
+  // ignore: non_constant_identifier_names
   String URL2 =
       'https://7nuyrr9ca3.execute-api.us-east-1.amazonaws.com/dev/controllerNotifications';
 
@@ -52,6 +53,7 @@ class USerProvider {
       //Guardando subscriptionArn del usuario en el controller de notificaciones
       if (result['user']['notificationStatus'] == 'Active') {
         String subscriptionArn = result['user']['subscriptionArn'];
+        // ignore: unnecessary_null_comparison
         if (subscriptionArn != null) {
           final body2 = {
             "action": "unsubscribeDeviceToTopic",

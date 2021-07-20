@@ -15,11 +15,7 @@ class Notificaciones {
 
   static Stream<String> get messagesStream => _messageStreamController.stream;
   static Future<void>  _background(RemoteMessage message) async{
-
-          print('_background ${message.messageId}');
-          print(message.notification!.android!.sound);
-          print(message.data);
-              final player = AudioCache();
+          final player = AudioCache();
           // // call this method when desired
           await player.play('sound/sonido.mp3');
 
@@ -30,8 +26,6 @@ class Notificaciones {
   }
   static Future<void>  _onbackground(RemoteMessage message) async{
 
-          print('_onBackground ${message.messageId}');
-          print(message.data);
              final player = AudioCache();
           // call this method when desired
           await player.play('sound/sonido.mp3');
@@ -39,12 +33,11 @@ _messageStreamController.add(message.notification?.title ?? 'no titulo');
   }
   static Future<void>  abirMessage(RemoteMessage message) async{
 
-          print('abrir ${message.messageId}');
-          print(message.data);
-          _messageStreamController.add(message.notification?.title ?? 'no titulo');
+          
              final player = AudioCache();
           // call this method when desired
           await player.play('sound/sonido.mp3');
+          _messageStreamController.add(message.notification?.title ?? 'no titulo');
           }
 
 
@@ -61,8 +54,7 @@ _messageStreamController.add(message.notification?.title ?? 'no titulo');
           FirebaseMessaging.onBackgroundMessage(_background);
           FirebaseMessaging.onMessage.listen(_onbackground,);
           FirebaseMessaging.onMessageOpenedApp.listen(abirMessage);
-}catch(e){
-      print('aaaaaaaaaaaaaaa');
+}catch(e){      
       print(e);
     }
   }

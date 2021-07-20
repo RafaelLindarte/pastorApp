@@ -55,6 +55,7 @@ String message = '';
 
         final result = await _userPool.signUp(email, passw,
             userAttributes: userAttributes);
+        // ignore: unnecessary_null_comparison
         if (result.user != null) {
           _preferences.uid = email;
           message = 'ok';

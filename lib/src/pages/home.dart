@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:provider/provider.dart';
-import 'package:push_notificaction/src/data/controller/active.dart';
 import 'package:push_notificaction/src/data/notificaciones.dart';
 import 'package:push_notificaction/src/data/provider/user-provider.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
@@ -14,73 +12,67 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> list = ['Sismica','Forestal','Tormenta Tropical'];
   final d = {
-    "evento":[
+    "evento": [
       {
-        "name":"Sismica",
-        "status":true,
+        "name": "Sismica",
+        "status": true,
       },
       {
-        "name":"Forestal",
-        "status":true,
+        "name": "Forestal",
+        "status": true,
       },
       {
-        "name":"Tormenta tropical",
-        "status":true,
-      },
-       ]
+        "name": "Tormenta tropical",
+        "status": true,
+      }     
+    ]
   };
-  bool status = true;
 
+
+  String _alert ='';
+  
 
   @override
   void initState() {
     super.initState();
     final _preferences = Preferences();
 
-        if(_preferences.iswelcome ==null){
-            _preferences.isWelcome = 'ok';
-            print('00000000000000000000000000');
-            if(mounted){
-             Future.delayed(Duration.zero, () {
-      this.welcome();
-          });
-              
-            }
-        }
+    if (_preferences.iswelcome == null) {
+      _preferences.isWelcome = 'ok';
+      if (mounted) {
+        Future.delayed(Duration.zero, () {
+          this.welcome();
+        });
+      }
+    }
     Notificaciones.messagesStream.listen((event) {
       Fluttertoast.showToast(msg: 'Recibiste una notificacón');
-
-      setState(() {
-        list.add(event);
-      });
     });
   }
 
-
-  void welcome(){
+  void welcome() {
     showDialog(
-      context: context,
-      builder: (context){
-        return AlertDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
             elevation: 4.0,
-            content: Text('Bienvenido'),
+            content: Text('Bienvenido al sistema de alerta temprana'),
             actions: [
-              TextButton(onPressed: (){
-                Navigator.pop(context);
-              }, child: Text('Continuar')
-              )
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Continuar'))
             ],
-        );
-      }
-      );     
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     final _preferences = Preferences();
-  List<dynamic>  dd = d['evento']!.toList();
+    List<dynamic> dd = d['evento']!.toList();
 
     return SafeArea(
       child: Scaffold(
@@ -95,11 +87,14 @@ class _HomePageState extends State<HomePage> {
                     _preferences.clearPreferences();
                     Navigator.pushNamed(context, 'login');
                     Fluttertoast.showToast(msg: 'Salir de la cuenta');
-                  }, icon: Icon(Icons.account_circle_sharp)),
+                  },
+                  icon: Icon(Icons.account_circle_sharp)),
               Text('Pastor'),
-              IconButton(onPressed: () {
-                Fluttertoast.showToast(msg: 'Agregar estación');
-              }, icon: Icon(Icons.add)),
+              IconButton(
+                  onPressed: () {
+                    addAlert(context);
+                  },
+                  icon: Icon(Icons.add)),
             ],
           ),
         ),
@@ -108,77 +103,165 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(top: 30),
           child: GridView.builder(
             gridDelegate:
-                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              print(dd);
-              return _cardEstaciones( dd[index]);
+                SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            itemBuilder: (context, index) {              
+              return _cardEstaciones(dd[index]);
             },
-            itemCount:dd.length,
+            itemCount: dd.length,
           ),
         ),
-             ),
+      ),
     );
   }
-  Widget _cardEstaciones(dynamic data){
-final styleData = StyleData();
-final _notificationProvider = Provider.of<NotificationProvider>(context);
-final userProvider = USerProvider();
+
+  Widget _cardEstaciones(dynamic data) {
+    final userProvider = USerProvider();
 
     return GestureDetector(
-                child: Card(
-                    elevation: 4.0,
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: FaIcon(
-                                  FontAwesomeIcons.water,
-                                  color: Colors.blue,
-                                )),
-                            IconButton(
-                                onPressed: () async {
-                                  await userProvider.onOf();
+      child: Container(
+        child: Card(
+            elevation: 4.0,
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: FaIcon(
+                          FontAwesomeIcons.water,
+                          color: Colors.blue,
+                        )),
+                    IconButton(
+                        onPressed: () async {
+                          await userProvider.onOf();
 
-                                  // if(data['status']==false){
-                                    setState(() {
-                                      data['status'] = !data['status'];
-                                     });
+                          setState(() {
+                            data['status'] = !data['status'];
+                          });
 
-                                        print(d['evento']);
-                                  // }
-                                  //    if(_notificationProvider.active){
-                                  //     _notificationProvider.isActive = false;
-                                  // }else{
-                                  //     _notificationProvider.isActive = true;
-                                  // }
-                                },
-                                icon: FaIcon(
-                                  FontAwesomeIcons.powerOff,
-                                   color: (data['status']) ? Colors.green: Colors.red,
-                                ))
-                          ],
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Center(
-                          child: Text(
-                            '${data['name']}',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        )
-                      ],
-                    )
-                    ),
-                    onTap: (){
-                      Navigator.pushNamed(context, 'notifications');
-                    },
-              );
-
-
+                          
+                        },
+                        icon: (data['status'])
+                            ? FaIcon(FontAwesomeIcons.bell, color: Colors.green)
+                            : FaIcon(
+                                FontAwesomeIcons.bellSlash,
+                                color: Colors.red,
+                              ))
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: Text(
+                    '${data['name']}',
+                    style: TextStyle(fontSize: 13),
+                  ),
+                )
+              ],
+            )),
+      ),
+      onTap: () {
+        Navigator.pushNamed(context, 'notifications');
+      },
+    );
   }
 
+  List<String> alertas = [
+    'Selecciona',
+    'Tormenta',
+    'Erupcion',
+    'Inundación',
+    'Incendio',
+    'Tsunami'
+  ];
+  String _opc = 'Selecciona';
+
+  List<DropdownMenuItem> getItem() {
+    List<DropdownMenuItem> list = [];
+    alertas.forEach((element) {
+      list.add(DropdownMenuItem(child: Text(element), value: element));
+    });
+    return list;
+  }
+
+  Widget _lista() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey.withOpacity(0.1),
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: DropdownButtonFormField<dynamic>(
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+          ),
+          isExpanded: true,
+          value: _opc,
+          items: getItem(),          
+          onChanged: (d) {
+            setState(() {
+              _opc = d;
+              _alert = d;
+        
+            });
+          }),
+    );
+  }
+
+  void addAlert(BuildContext context) {
+    final themeData = StyleData();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            elevation: 4.0,
+            content: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(child: Text('Agrega una alerta')),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _lista(),
+                  Container(
+                    child: Text('Dale un nombre (Opcional)'),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                    decoration: themeData.decorationInputs(),
+                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    child: TextField(
+                      // onChanged:(e)=> passwl = e,
+                      decoration: themeData.inputDecoration(' Mi alerta', true),
+                    ),
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: themeData.shape(),
+                        primary: Colors.red.withOpacity(0.9),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                        d['evento']!.add({"name":_alert, "status":true});
+                          
+                        });
+                        print(d['evento']);
+                      },
+                      child: Text('Agregar'))
+                ],
+              ),
+            ),
+          );
+        });
+  }
 }
