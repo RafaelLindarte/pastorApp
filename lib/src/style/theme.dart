@@ -22,7 +22,7 @@ TextStyle styles(double fontSize, Color color){
   return RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
 }
 
-BoxDecoration decorationInputs(){ // decora el fondo de  los inputs, estilo de un container
+BoxDecoration decorationInputs(double radio){ // decora el fondo de  los inputs, estilo de un container
 
   return  BoxDecoration(
             color: Colors.grey.withOpacity(0.1),
@@ -30,7 +30,7 @@ BoxDecoration decorationInputs(){ // decora el fondo de  los inputs, estilo de u
               color: Colors.grey.withOpacity(0.0),
               width: 1.0,
             ),
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(radio),
           );
 }
 
@@ -38,7 +38,7 @@ InputDecoration inputDecoration(String hintTextS, bool icon ){// decoracion del 
   return InputDecoration(
     border: InputBorder.none,
     hintText: hintTextS,
-    // suffixIcon: (icon)? Icon(Icons.view):Text(''),
+    suffixIcon: (icon)? Icon(Icons.edit):Text(''),
     
   );
 }

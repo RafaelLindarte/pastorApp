@@ -45,7 +45,7 @@ class _RecuperarContrasenaState extends State<RecuperarContrasena> {
                  SizedBox(height: 20,),                 
            (isVisible) ?
             Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             // onChanged: (e)=>email = e,
@@ -97,7 +97,7 @@ Widget newPassword(){
   return Column(
     children: [
  Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             // onChanged: (e)=>email = e,
@@ -107,7 +107,7 @@ keyboardType: TextInputType.number,
           )),
           SizedBox(height:8.0),
  Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             // onChanged: (e)=>email = e,

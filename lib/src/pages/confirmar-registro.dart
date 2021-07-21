@@ -39,7 +39,7 @@ class Confirm extends StatelessWidget {
                 height: 20,
               ),
               Container(
-                decoration: themeData.decorationInputs(),
+                decoration: themeData.decorationInputs(10.0),
                 margin: EdgeInsets.symmetric(horizontal: 40),
                 child: TextField(
                   onChanged: (e)=> _codigo = e,

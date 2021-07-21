@@ -84,9 +84,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               IconButton(
                   onPressed: () {
-                    _preferences.clearPreferences();
-                    Navigator.pushNamed(context, 'login');
-                    Fluttertoast.showToast(msg: 'Salir de la cuenta');
+                    Navigator.pushNamed(context, 'account');
                   },
                   icon: Icon(Icons.account_circle_sharp)),
               Text('Pastor'),
@@ -238,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                     height: 8,
                   ),
                   Container(
-                    decoration: themeData.decorationInputs(),
+                    decoration: themeData.decorationInputs(10.0),
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: TextField(
                       // onChanged:(e)=> passwl = e,

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:push_notificaction/src/data/cognito/cognito.dart';
-import 'package:push_notificaction/src/pages/home.dart';
-// import 'package:push_notificaction/src/data/login.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:push_notificaction/src/style/theme.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -156,7 +154,7 @@ class Login extends StatelessWidget {
       children: [
         SizedBox(height: 20,),
         Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             onChanged: (e)=>emaill = e,
@@ -167,7 +165,7 @@ class Login extends StatelessWidget {
         SizedBox(height: 8,),
 
         Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(  
             obscureText:true,
@@ -224,7 +222,7 @@ Widget _bodyTab2(BuildContext context){
     children: [
         SizedBox(height: 30.0),
         Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             onChanged: (e)=> name = e,
@@ -235,7 +233,7 @@ Widget _bodyTab2(BuildContext context){
         ),
         SizedBox(height: 8,),
         Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             onChanged: (e)=> apee = e ,
@@ -246,7 +244,7 @@ Widget _bodyTab2(BuildContext context){
         ),
         SizedBox(height: 8,),
         Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(
             onChanged: (e)=> email = e,
@@ -257,7 +255,7 @@ Widget _bodyTab2(BuildContext context){
         SizedBox(height: 8,),
 
         Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(               
             obscureText: true,
@@ -269,7 +267,7 @@ Widget _bodyTab2(BuildContext context){
         SizedBox(height: 8,),
 
         Container(
-          decoration: themeData.decorationInputs(),
+          decoration: themeData.decorationInputs(10.0),
           margin: EdgeInsets.symmetric(horizontal: 40),
           child: TextField(                      
             onChanged: (e)=> conf = e,

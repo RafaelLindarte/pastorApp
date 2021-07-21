@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:push_notificaction/src/data/controller/active.dart';
 import 'package:push_notificaction/src/data/notificaciones.dart';
+import 'package:push_notificaction/src/pages/account.dart';
 import 'package:push_notificaction/src/pages/confirmar-registro.dart';
 import 'package:push_notificaction/src/pages/home.dart';
 import 'package:push_notificaction/src/pages/login.dart';
@@ -50,6 +51,7 @@ class MyApp extends StatelessWidget {
           'home'            : (BuildContext context) => HomePage(),          
           'notifications'   : (BuildContext context) => NotificacionesPage(),          
           'recuperar'       : (BuildContext context) => RecuperarContrasena(),          
+          'account'       : (BuildContext context) => AcountPage(),          
         }
       ),
     );
