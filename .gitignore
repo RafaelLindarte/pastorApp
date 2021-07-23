@@ -10,7 +10,7 @@
 .buildlog/
 .history
 .svn/
-
+readme2.md
 # IntelliJ related
 *.iml
 *.ipr

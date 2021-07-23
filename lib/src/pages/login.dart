@@ -44,20 +44,14 @@ class Login extends StatelessWidget {
   Widget _banner(BuildContext context) {
     return Container(
         alignment: Alignment.center,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 10,
-              width: double.infinity,
-            ),
-            Icon(Icons.person_pin_circle, color: Colors.white, size: 70),
-            SizedBox(
-              height: 10,
-              width: double.infinity,
-            ),
-            Text('Pastor', style: themeData.styles(25.0, Colors.white))
-          ],
-        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height*0.1, 
+          child: Image(
+            
+            image: AssetImage('assets/logoApp.png'),
+            fit: BoxFit.contain,
+          ),
+        )   ,
         height: MediaQuery.of(context).size.height * 0.2,
         width: double.infinity,
         color: Colors.red.withOpacity(0.9),        
@@ -277,7 +271,21 @@ Widget _bodyTab2(BuildContext context){
           ),
         ),
         SizedBox(height: 8,),
-      _buttonRegistro(context),      
+      _buttonRegistro(context), 
+        SizedBox(height: 8,),
+    Container(
+      // alignment: Alignment.bottomRight,
+          height: MediaQuery.of(context).size.height*0.1, 
+          margin:EdgeInsets.only(right: 30),
+          child: Image(
+            
+            image: AssetImage('assets/logopatr.png'),
+            fit: BoxFit.contain,
+          ),
+        )
+
+
+
     ],
   );
 }

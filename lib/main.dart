@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Material App',
+        title: 'Pastor',
         initialRoute: '/',
         routes:{
           '/' :(BuildContext context){
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           'home'            : (BuildContext context) => HomePage(),          
           'notifications'   : (BuildContext context) => NotificacionesPage(),          
           'recuperar'       : (BuildContext context) => RecuperarContrasena(),          
-          'account'       : (BuildContext context) => AcountPage(),          
+          'account'         : (BuildContext context) => AcountPage(),          
         }
       ),
     );

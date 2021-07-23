@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:push_notificaction/src/data/model/modelo-tarjetas-alertas.dart';
 import 'package:push_notificaction/src/data/notificaciones.dart';
 import 'package:push_notificaction/src/data/provider/user-provider.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
@@ -12,31 +13,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final d = {
-    "evento": [
-      {
-        "name": "Sismica",
-        "status": true,
-      },
-      {
-        "name": "Forestal",
-        "status": true,
-      },
-      {
-        "name": "Tormenta tropical",
-        "status": true,
-      }     
-    ]
-  };
 
-
+TextEditingController _editingController = TextEditingController();
   String _alert ='';
-  
+  String typeAlert = '';
+  final userProvider = USerProvider();
+  final _preferences = Preferences();
+  bool isActive = true;
+
 
   @override
   void initState() {
     super.initState();
-    final _preferences = Preferences();
 
     if (_preferences.iswelcome == null) {
       _preferences.isWelcome = 'ok';
@@ -51,6 +39,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+@override
+void dispose() { 
+  
+  super.dispose();
+  _editingController.dispose();
+}
   void welcome() {
     showDialog(
         context: context,
@@ -70,10 +64,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final _preferences = Preferences();
-    List<dynamic> dd = d['evento']!.toList();
-
+  Widget build(BuildContext context) {   
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -99,21 +90,31 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           color: Colors.grey.withOpacity(0.16),
           padding: EdgeInsets.only(top: 30),
-          child: GridView.builder(
+          child: FutureBuilder(    
+            future: userProvider.getAllAlertByUserId(), 
+            builder: (BuildContext context, AsyncSnapshot<List<AlertModel>> snapshot){
+              List<AlertModel> list = snapshot.data ?? [];
+                if(!snapshot.hasData){
+                return Center(child: CircularProgressIndicator(),);
+              }else{
+              return GridView.builder(
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             itemBuilder: (context, index) {              
-              return _cardEstaciones(dd[index]);
+              return _cardEstaciones(list[index]);
             },
-            itemCount: dd.length,
+            itemCount:list.length,
+          );
+              }
+            },         
+         
           ),
         ),
       ),
     );
   }
 
-  Widget _cardEstaciones(dynamic data) {
-    final userProvider = USerProvider();
+  Widget _cardEstaciones(AlertModel data) {
 
     return GestureDetector(
       child: Container(
@@ -132,15 +133,25 @@ class _HomePageState extends State<HomePage> {
                         )),
                     IconButton(
                         onPressed: () async {
-                          await userProvider.onOf();
-
-                          setState(() {
-                            data['status'] = !data['status'];
-                          });
+                          // await userProvider.onOf();
+                         
+                          if(data.value!.status=='Active'){
+                            Fluttertoast.showToast(msg: 'Desactivando notificaciones para ${data.key}');
+                            await userProvider.inactive(data.value!.subscriptionArn.toString(), data.key.toString());
+                            setState(() {
+                              isActive = !isActive;
+                            });
+                          }else{
+                            Fluttertoast.showToast(msg: 'Activando notificaciones para ${data.key}');
+                             await userProvider.active(data.value!.type.toString(), data.key.toString());
+                             setState(() {
+                              isActive = !isActive;
+                            });
+                          }
 
                           
                         },
-                        icon: (data['status'])
+                        icon: (data.value!.status=='Active')
                             ? FaIcon(FontAwesomeIcons.bell, color: Colors.green)
                             : FaIcon(
                                 FontAwesomeIcons.bellSlash,
@@ -153,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Center(
                   child: Text(
-                    '${data['name']}',
+                    '${data.key}',
                     style: TextStyle(fontSize: 13),
                   ),
                 )
@@ -165,14 +176,16 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
+  
+
+
 
   List<String> alertas = [
     'Selecciona',
-    'Tormenta',
     'Erupcion',
-    'Inundación',
-    'Incendio',
-    'Tsunami'
+    'Sismica',
+    'Tormenta',
+   
   ];
   String _opc = 'Selecciona';
 
@@ -215,6 +228,7 @@ class _HomePageState extends State<HomePage> {
 
   void addAlert(BuildContext context) {
     final themeData = StyleData();
+    final userPorovider = USerProvider();
     showDialog(
         context: context,
         builder: (context) {
@@ -239,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                     decoration: themeData.decorationInputs(10.0),
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: TextField(
-                      // onChanged:(e)=> passwl = e,
+                      controller: _editingController,
                       decoration: themeData.inputDecoration(' Mi alerta', true),
                     ),
                   ),
@@ -248,12 +262,13 @@ class _HomePageState extends State<HomePage> {
                         shape: themeData.shape(),
                         primary: Colors.red.withOpacity(0.9),
                       ),
-                      onPressed: () {
-                        setState(() {
-                        d['evento']!.add({"name":_alert, "status":true});
+                      onPressed: () async{
+                        await userPorovider.createAler(_editingController.text.trim(), _alert);
+                        // setState(() {
+                        // d['evento']!.add({"name":_alert, "status":true});
                           
-                        });
-                        print(d['evento']);
+                        // });
+                        // print(d['evento']);
                       },
                       child: Text('Agregar'))
                 ],
