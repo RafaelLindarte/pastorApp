@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:push_notificaction/src/data/controller/active.dart';
 import 'package:push_notificaction/src/data/model/alertas.dart';
 import 'package:push_notificaction/src/data/provider/alertas-provider.dart';
 
@@ -16,6 +18,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
   int add = 8;
   int create = 0;
   List<Item> alertItems =[];
+  String type = '';
   @override
   void initState() {
     super.initState();
@@ -31,7 +34,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
   getMores() async {        
     
     if(create!=0){
-      final result = await alertasProvider.getMoreAlerts(create);         
+      final result = await alertasProvider.getMoreAlerts(create, type);         
     
     setState(() {
          List<Item> alertItem = result[0];
@@ -47,7 +50,9 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
   }
   }
   void getfirstAlerts() async {
-    final result = await alertasProvider.getFirstAlerts();
+    final notificationProvider = Provider.of<NotificationProvider>(context, listen:false);
+
+    final result = await alertasProvider.getFirstAlerts(notificationProvider.typeAler);
      alertItems = result[0];
       create = result[1];
     setState(() {});
@@ -55,6 +60,10 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
 
   @override
   Widget build(BuildContext context) {
+        final args = ModalRoute.of(context)!.settings.arguments;
+        setState(() {          
+          type = args.toString();
+        });
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -111,7 +120,7 @@ class _NotificacionesPageState extends State<NotificacionesPage> {
                   ),
                   Text('${i.eventTime}'),
                   Text(
-                    'Lunes',
+                    '${i.eventDay}',
                     style: TextStyle(fontSize: 10),
                   )
                 ],

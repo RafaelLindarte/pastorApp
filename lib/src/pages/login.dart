@@ -164,7 +164,7 @@ class Login extends StatelessWidget {
           child: TextField(  
             obscureText:true,
             onChanged:(e)=> passwl = e, 
-            decoration: themeData.inputDecoration(' Contraseña', true),
+            decoration: themeData.inputDecoration(' Contraseña', false),
           ),
         ),
       
@@ -255,7 +255,7 @@ Widget _bodyTab2(BuildContext context){
             obscureText: true,
             onChanged: (e)=> pass = e,
 
-            decoration: themeData.inputDecoration(' Contraseña', true),
+            decoration: themeData.inputDecoration(' Contraseña', false),
           ),
         ),
         SizedBox(height: 8,),
@@ -267,7 +267,7 @@ Widget _bodyTab2(BuildContext context){
             onChanged: (e)=> conf = e,
             obscureText: true,
 
-            decoration: themeData.inputDecoration(' Confirma Contraseña', true),
+            decoration: themeData.inputDecoration(' Confirma Contraseña', false),
           ),
         ),
         SizedBox(height: 8,),

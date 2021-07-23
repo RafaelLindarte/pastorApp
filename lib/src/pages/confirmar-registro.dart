@@ -30,7 +30,7 @@ class Confirm extends StatelessWidget {
                 alignment: Alignment.center,
                 child:Column(
                   children: [
-                     Text('Ya casi!!!'),
+                     Text('Estas a un paso', style: TextStyle(fontWeight: FontWeight.bold),),
                       Text('Revisa tu correo e ingresa el código de confirmación')
                   ],
                 ),

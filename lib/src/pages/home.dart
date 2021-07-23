@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:push_notificaction/src/data/controller/active.dart';
 import 'package:push_notificaction/src/data/model/modelo-tarjetas-alertas.dart';
 import 'package:push_notificaction/src/data/notificaciones.dart';
 import 'package:push_notificaction/src/data/provider/user-provider.dart';
@@ -20,7 +22,7 @@ TextEditingController _editingController = TextEditingController();
   final userProvider = USerProvider();
   final _preferences = Preferences();
   bool isActive = true;
-
+ final stleData =  StyleData();
 
   @override
   void initState() {
@@ -75,7 +77,10 @@ void dispose() {
             children: [
               IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, 'account');
+                    _preferences.clearPreferences();
+                  Navigator.pushNamed(context, 'login');
+                  Fluttertoast.showToast(msg: 'Cerrando sesión');
+                    // Navigator.pushNamed(context, 'account');
                   },
                   icon: Icon(Icons.account_circle_sharp)),
               Text('Pastor'),
@@ -106,8 +111,7 @@ void dispose() {
             itemCount:list.length,
           );
               }
-            },         
-         
+            },          
           ),
         ),
       ),
@@ -115,7 +119,8 @@ void dispose() {
   }
 
   Widget _cardEstaciones(AlertModel data) {
-
+    
+    final notificationProvider = Provider.of<NotificationProvider>(context, listen:false);
     return GestureDetector(
       child: Container(
         child: Card(
@@ -130,7 +135,8 @@ void dispose() {
                         icon: FaIcon(
                           FontAwesomeIcons.water,
                           color: Colors.blue,
-                        )),
+                        )
+                        ),
                     IconButton(
                         onPressed: () async {
                           // await userProvider.onOf();
@@ -172,7 +178,8 @@ void dispose() {
             )),
       ),
       onTap: () {
-        Navigator.pushNamed(context, 'notifications');
+        notificationProvider.typeAlert = data.value!.type.toString();
+        Navigator.pushNamed(context, 'notifications', arguments: data.value!.type);
       },
     );
   }
@@ -238,13 +245,15 @@ void dispose() {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Container(child: Text('Agrega una alerta')),
+                  Container(
+                    
+                    child: Text('Agrega una alerta', style: TextStyle(fontWeight: FontWeight.bold),)),
                   SizedBox(
                     height: 10,
-                  ),
-                  _lista(),
+                  ),                  
                   Container(
-                    child: Text('Dale un nombre (Opcional)'),
+                    alignment: Alignment.centerLeft,
+                    child: Text('Dale un nombre (*)'),
                   ),
                   SizedBox(
                     height: 8,
@@ -254,21 +263,26 @@ void dispose() {
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: TextField(
                       controller: _editingController,
-                      decoration: themeData.inputDecoration(' Mi alerta', true),
+                      decoration: themeData.inputDecoration(' Mi alerta', false),
                     ),
                   ),
+                  _lista(),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: themeData.shape(),
                         primary: Colors.red.withOpacity(0.9),
                       ),
                       onPressed: () async{
-                        await userPorovider.createAler(_editingController.text.trim(), _alert);
-                        // setState(() {
-                        // d['evento']!.add({"name":_alert, "status":true});
-                          
-                        // });
-                        // print(d['evento']);
+                        
+                        if(_editingController.text.trim()!=''){
+                          await userPorovider.createAler(_editingController.text.trim(), _alert);
+                          setState(() {
+                            
+                          });
+                          Navigator.pop(context);
+                        }else{
+                          Fluttertoast.showToast(msg: 'Debes de darle un nombre');
+                        }
                       },
                       child: Text('Agregar'))
                 ],

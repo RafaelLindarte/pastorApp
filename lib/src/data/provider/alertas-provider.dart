@@ -7,7 +7,7 @@ class AlertasProvider {
   final _URL =
       'https://7nuyrr9ca3.execute-api.us-east-1.amazonaws.com/dev/controllerAlerts';
 
-  Future<List> getFirstAlerts() async {
+  Future<List> getFirstAlerts(String type) async {
     List<Item> alertItems = [];
     int lastEvaluatedKey = 0;
 
@@ -23,12 +23,13 @@ class AlertasProvider {
       }
       String fecha = "$year-$month-$day";
 
-      final body = {"action": "listAlerts", "date": '2021-07-21', "limit": '8'};
-
+      final body = {"action": "listAlerts", "limit": '8', "type": type};
+    print(type);
       final result = await http.post(Uri.parse(_URL),
           body: json.encode(body),
           headers: {'Content-Type': 'application/json'});
       final jsonData = json.decode(result.body);
+      print(jsonData);
       if (jsonData['ok'] == true) {
         final data =
             Alerts.fromJson(jsonData['alerts'] as Map<String, dynamic>);
@@ -40,7 +41,7 @@ class AlertasProvider {
     }
     return [alertItems, lastEvaluatedKey];
   }
-  Future<List> getMoreAlerts(int create ) async {
+  Future<List> getMoreAlerts(int create, String type ) async {
     List<Item> alertItems = [];
     int lastEvaluatedKey =0;    
     try {
@@ -56,7 +57,7 @@ class AlertasProvider {
       String fecha = "2021-07-21";
 
     if(create!=null && create != 0){      
-        final body = {"action": "listAlerts", "date": fecha, "createdAt": create ,};
+        final body = {"action": "listAlerts", "date": fecha, "createdAt": create ,"type": type, "limit": 8};
 
       final result = await http.post(Uri.parse(_URL),
           body: json.encode(body),

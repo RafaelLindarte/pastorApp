@@ -1,3 +1,32 @@
+// To parse this JSON data, do
+//
+//     final alertModel = alertModelFromJson(jsonString);
+
+import 'dart:convert';
+
+AlertModel alertModelFromJson(String str) => AlertModel.fromJson(json.decode(str));
+
+String alertModelToJson(AlertModel data) => json.encode(data.toJson());
+
+class AlertModel {
+    AlertModel({
+        this.ok,
+        this.alerts,
+    });
+
+    bool? ok;
+    Alerts? alerts;
+
+    factory AlertModel.fromJson(Map<String, dynamic> json) => AlertModel(
+        ok: json["ok"],
+        alerts: Alerts.fromJson(json["alerts"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "ok": ok,
+        "alerts": alerts!.toJson(),
+    };
+}
 
 class Alerts {
     Alerts({
@@ -8,7 +37,7 @@ class Alerts {
     });
 
     List<Item>? items;
-    int?count ;
+    int? count;
     int? scannedCount;
     LastEvaluatedKey? lastEvaluatedKey;
 
@@ -30,6 +59,7 @@ class Alerts {
 class Item {
     Item({
         this.eventMunicipalities,
+        this.eventDay,
         this.station,
         this.eventDate,
         this.eventDepth,
@@ -38,18 +68,20 @@ class Item {
         this.eventTime,
     });
 
-    dynamic? eventMunicipalities;
+    dynamic eventMunicipalities;
+    String? eventDay;
     String? station;
-    DateTime? eventDate;
-    dynamic? eventDepth;
-    dynamic? eventLocation;
+    String? eventDate;
+    dynamic eventDepth;
+    dynamic eventLocation;
     String? eventType;
     String? eventTime;
 
     factory Item.fromJson(Map<String, dynamic> json) => Item(
         eventMunicipalities: json["eventMunicipalities"],
+        eventDay: json["eventDay"],
         station: json["Station"],
-        eventDate: DateTime.parse(json["eventDate"]),
+        eventDate: json["eventDate"],
         eventDepth: json["eventDepth"],
         eventLocation: json["eventLocation"],
         eventType: json["eventType"],
@@ -58,8 +90,9 @@ class Item {
 
     Map<String, dynamic> toJson() => {
         "eventMunicipalities": eventMunicipalities,
+        "eventDay": eventDay,
         "Station": station,
-        "eventDate": "${eventDate!.year.toString().padLeft(4, '0')}-${eventDate!.month.toString().padLeft(2, '0')}-${eventDate!.day.toString().padLeft(2, '0')}",
+        "eventDate": eventDate,
         "eventDepth": eventDepth,
         "eventLocation": eventLocation,
         "eventType": eventType,
@@ -71,23 +104,23 @@ class LastEvaluatedKey {
     LastEvaluatedKey({
         this.id,
         this.createdAt,
-        this.eventDate,
+        this.eventType,
     });
 
     String? id;
     int? createdAt;
-    DateTime? eventDate;
+    String? eventType;
 
     factory LastEvaluatedKey.fromJson(Map<String, dynamic> json) => LastEvaluatedKey(
         id: json["id"],
         createdAt: json["createdAt"],
-        eventDate: DateTime.parse(json["eventDate"]),
+        eventType: json["eventType"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "createdAt": createdAt,
-        "eventDate": "${eventDate!.year.toString().padLeft(4, '0')}-${eventDate!.month.toString().padLeft(2, '0')}!-${eventDate!.day.toString().padLeft(2, '0')}",
+        "eventType": eventType,
     };
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:push_notificaction/src/data/controller/active.dart';
 
@@ -51,7 +52,24 @@ Color colorOnOf(BuildContext context){
   }else {
     return Colors.red;
   }
-
 }
-
+FontAwesomeIcons icon = FontAwesomeIcons();
+FontAwesomeIcons getIcons(String type){
+final listIcon = {
+  "icons":[
+    {"type":"Sismica", "icon":'houseDamage'},
+    {"type":"Tormenta", "icon":'pooStorm'},
+    {"type":"Erupcion", "icon":'mountain'}
+  ]
+};
+List list = [];
+list.add(listIcon['icons']);
+list.forEach((element) {
+  if(element['type']==type){
+    icon = element['icon'];
+  }  
+});
+  return icon;
+  
+}
 }
