@@ -77,10 +77,8 @@ void dispose() {
             children: [
               IconButton(
                   onPressed: () {
-                    _preferences.clearPreferences();
-                  Navigator.pushNamed(context, 'login');
-                  Fluttertoast.showToast(msg: 'Cerrando sesión');
-                    // Navigator.pushNamed(context, 'account');
+                  
+                    Navigator.pushNamed(context, 'account');
                   },
                   icon: Icon(Icons.account_circle_sharp)),
               Text('Pastor'),
