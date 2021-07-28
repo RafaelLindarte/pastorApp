@@ -7,12 +7,22 @@ class NotificationProvider with ChangeNotifier{
 
 
 
- bool _isActive = false;
+ String _isActive = '';
  String _typeAlert ='';
+ String _arn ='';
+ String _key ='';
 
 
- set isActive(bool ia){
+ set isActive(String ia){
    _isActive = ia;
+   notifyListeners();
+ }
+ set serarn(String arn){
+   _arn = arn;
+   notifyListeners();
+ }
+ set setkey(String key){
+    _key = key;
    notifyListeners();
  }
 
@@ -23,4 +33,6 @@ class NotificationProvider with ChangeNotifier{
  }
  get typeAler => _typeAlert;
  get active => _isActive;
+ get key => _key;
+ get arn => _arn;
 }

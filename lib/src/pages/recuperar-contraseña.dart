@@ -51,7 +51,7 @@ class _RecuperarContrasenaState extends State<RecuperarContrasena> {
             // onChanged: (e)=>email = e,
             keyboardType: TextInputType.emailAddress,
             controller:_emailController,            
-            decoration: themeData.inputDecoration(' Correo', false),
+            decoration: themeData.inputDecoration(' Correo', false,'null'),
           ),
         ):newPassword(),
         
@@ -103,7 +103,7 @@ Widget newPassword(){
             // onChanged: (e)=>email = e,
                 controller: _codeController,
 keyboardType: TextInputType.number,
-            decoration: themeData.inputDecoration(' Codigo', false),
+            decoration: themeData.inputDecoration(' Codigo', false,'null'),
           )),
           SizedBox(height:8.0),
  Container(
@@ -113,7 +113,7 @@ keyboardType: TextInputType.number,
             // onChanged: (e)=>email = e,
             obscureText: true,
             controller: _passwordController,            
-            decoration: themeData.inputDecoration(' Nueva Contraseña', true),
+            decoration: themeData.inputDecoration(' Nueva Contraseña', true,'null'),
           )),
         
 

@@ -35,12 +35,11 @@ BoxDecoration decorationInputs(double radio){ // decora el fondo de  los inputs,
           );
 }
 
-InputDecoration inputDecoration(String hintTextS, bool icon ){// decoracion del input
+InputDecoration inputDecoration(String hintTextS, bool icon, String error ){// decoracion del input
   return InputDecoration(
     border: InputBorder.none,
-    hintText: hintTextS,
-    suffixIcon: (icon)? Icon(Icons.edit):Text(''),
-    
+    hintText: hintTextS,        
+    errorText: (error!='null')?error:null
   );
 }
 
@@ -71,5 +70,23 @@ list.forEach((element) {
 });
   return icon;
   
+}
+//para asignarle el icono izquierdo a los inputs
+Padding paddingInputs(Icon data){
+  return  Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 15.0,                  
+                ),
+                child: data,
+              );
+}
+Container separadadirInputs(){
+  return  Container(
+                height: 40.0,
+                width: 1.0,
+                color: Colors.grey.withOpacity(0.5),
+                margin: const EdgeInsets.only(left: 00.0, right: 10.0),
+              );
 }
 }

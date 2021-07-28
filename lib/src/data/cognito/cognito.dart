@@ -39,6 +39,10 @@ String message = '';
 
   Future<String> singUp(
       String email, String passw, String conf, String name) async {
+        print(email);
+        print(passw);
+        print(conf);
+        print(name);
     String message = '';
     if (email == '' || passw == '' || name == '') {
       message = 'Por favor llene todos los campos';

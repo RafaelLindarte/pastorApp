@@ -44,7 +44,7 @@ class Confirm extends StatelessWidget {
                 child: TextField(
                   onChanged: (e)=> _codigo = e,
                   keyboardType: TextInputType.number,
-                  decoration: themeData.inputDecoration(' Ingresa el código', false),
+                  decoration: themeData.inputDecoration(' Ingresa el código', false,'null'),
                 ),
               ),
                SizedBox(

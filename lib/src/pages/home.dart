@@ -5,6 +5,8 @@ import 'package:push_notificaction/src/data/controller/active.dart';
 import 'package:push_notificaction/src/data/model/modelo-tarjetas-alertas.dart';
 import 'package:push_notificaction/src/data/notificaciones.dart';
 import 'package:push_notificaction/src/data/provider/user-provider.dart';
+import 'package:push_notificaction/src/data/state/notification_state.dart';
+import 'package:push_notificaction/src/pages/notifications.dart';
 import 'package:push_notificaction/src/shared/preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:push_notificaction/src/style/theme.dart';
@@ -118,7 +120,7 @@ void dispose() {
 
   Widget _cardEstaciones(AlertModel data) {
     
-    final notificationProvider = Provider.of<NotificationProvider>(context, listen:false);
+    // final notificationProvider = Provider.of<NotificationProvider>(context, listen:false);
     return GestureDetector(
       child: Container(
         child: Card(
@@ -175,9 +177,17 @@ void dispose() {
               ],
             )),
       ),
-      onTap: () {
-        notificationProvider.typeAlert = data.value!.type.toString();
-        Navigator.pushNamed(context, 'notifications', arguments: data.value!.type);
+      onTap: () {        
+        // notificationProvider.typeAlert = data.value!.type.toString();
+        // notificationProvider.isActive = data.value!.status.toString();
+        // notificationProvider.serarn= data.value!.subscriptionArn.toString();
+        // notificationProvider.setkey = data.key.toString();
+        
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>NotificacionesPage(
+            type:data.value!.type.toString(),
+            status: data.value!.status.toString(),
+            keys: data.key!,
+        )));
       },
     );
   }
@@ -261,7 +271,7 @@ void dispose() {
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     child: TextField(
                       controller: _editingController,
-                      decoration: themeData.inputDecoration(' Mi alerta', false),
+                      decoration: themeData.inputDecoration(' Mi alerta', false,'null'),
                     ),
                   ),
                   _lista(),

@@ -44,10 +44,10 @@ class _AcountPageState extends State<AcountPage> {
                 Container(
                   color: Colors.grey.withOpacity(0.16),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 40, right: 30, left: 30),
-                  child: SingleChildScrollView(
-                    child: Column(children: [
+                // Container(
+                //   margin: EdgeInsets.only(top: 40, right: 30, left: 30),
+                //   child: 
+                Column(children: [
                         Container(
                                   alignment: Alignment.center,
                                   child: Text(' Datos Personales',
@@ -55,6 +55,7 @@ class _AcountPageState extends State<AcountPage> {
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold))),
                       Card(
+                        margin: EdgeInsets.only(top: 5.0, right: 25.0, left: 25.0),
                         child: Column(
                             children: [                            
                               Container(
@@ -84,52 +85,57 @@ class _AcountPageState extends State<AcountPage> {
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                       ),
-                      Container(
-                        child: Card(
-                          child: SingleChildScrollView(
-                            child:
-                                Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: 
-                                          Container(
-                                                child: FutureBuilder(
-                                                    future: userProvider
-                                                        .getAllAlertByUserId(),
-                                                    builder: (BuildContext
-                                                            context,
-                                                        AsyncSnapshot snapshot) {
-                                                      List<AlertModel> list =
-                                                          snapshot.data ?? [];
-                                                      if (!snapshot.hasData) {
-                                                        return Container(
-                                                            alignment:
-                                                                Alignment.center,
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    top: 20),
-                                                            child:
-                                                                CupertinoActivityIndicator());
-                                                      } else {
-                                                        return ListView.builder(
-                                                            shrinkWrap: true,
-                                                            itemCount: list.length,
-                                                            itemBuilder:
-                                                                (BuildContext
-                                                                        context,
-                                                                    int item) {
-                                                              return subscripciones( list[item], context);
-                                                            });
-                                                      }
-                                                    })
-                                                    ),                                        
+                       
+                                 
+                                          Expanded(
+                                            child: Card(
+                                                    margin: EdgeInsets.only(top: 5.0, right: 25.0, left: 25.0, bottom: 5.0),
+
+                                              child: Container(
+                                                    child: FutureBuilder(
+                                                        future: userProvider
+                                                            .getAllAlertByUserId(),
+                                                        builder: (BuildContext
+                                                                context,
+                                                            AsyncSnapshot snapshot) {
+                                                          List<AlertModel> list =
+                                                              snapshot.data ?? [];
+                                                          if (!snapshot.hasData) {
+                                                            return Container(
+                                                                alignment:
+                                                                    Alignment.center,
+                                                                margin:
+                                                                    EdgeInsets.only(
+                                                                        top: 20),
+                                                                child:
+                                                                    CupertinoActivityIndicator());
+                                                          } else {
+                                                            if(list.length==0){
+                                                                    return Center(child: Text('Sin subscripciones'),);
+
+                                                            }else{
+                                                              return ListView.builder(
+                                                                shrinkWrap: true,
+                                                                itemCount: list.length,
+                                                                itemBuilder:
+                                                                    (BuildContext
+                                                                            context,
+                                                                        int item) {
+                                                                  return subscripciones( list[item], context);
+                                                                });
+
+                                                            }
+                                                          }
+                                                        })
+                                                        ),
+                                            ),
+                                          ),                                        
                                 
-                            ),
-                          ),
-                        ),
-                      )
+                          
+                          
+                       
                     ]),
-                  ),
-                )
+                  // ),
               ],
             )));
   }
@@ -138,7 +144,9 @@ class _AcountPageState extends State<AcountPage> {
     return Column(
       children: [
         Container(
-            margin: EdgeInsets.only(left: 5),
+          
+            margin: EdgeInsets.only(top: 5.0, right: 25.0, left: 25.0),
+            
             // decoration: themeData.decorationInputs(0.0),
             child: Row(
               children: [
@@ -148,7 +156,7 @@ class _AcountPageState extends State<AcountPage> {
                     onChanged: (e) => _firstName = e,
                     enabled: isEditName,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: themeData.inputDecoration(' Nombre', false),
+                    decoration: themeData.inputDecoration(' Nombre', false,''),
                   ),
                 ),
                 IconButton(
@@ -177,7 +185,9 @@ class _AcountPageState extends State<AcountPage> {
             )),
         Container(
             // decoration: themeData.decorationInputs(0.0),
-            margin: EdgeInsets.only(left: 5),
+            // margin: EdgeInsets.only(left: 5),
+              margin: EdgeInsets.only(top: 5.0, right: 25.0, left: 25.0),
+
             child: Row(
               children: [
                 Expanded(
@@ -186,7 +196,7 @@ class _AcountPageState extends State<AcountPage> {
                     onChanged: (e) => _lastName = e,
                     enabled: isEditLastName,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: themeData.inputDecoration(' Apellido', false),
+                    decoration: themeData.inputDecoration(' Apellido', false,''),
                   ),
                 ),
                 IconButton(
@@ -220,6 +230,8 @@ class _AcountPageState extends State<AcountPage> {
 
   Widget subscripciones(AlertModel data,BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 5.0, right: 25.0, left: 25.0),
+
       child: Row(        
         mainAxisAlignment:MainAxisAlignment.spaceAround,
         children: [          

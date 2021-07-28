@@ -24,24 +24,38 @@ class AlertasProvider {
       String fecha = "$year-$month-$day";
 
       final body = {"action": "listAlerts", "limit": '8', "type": type};
-    print(type);
+    
       final result = await http.post(Uri.parse(_URL),
           body: json.encode(body),
           headers: {'Content-Type': 'application/json'});
-      final jsonData = json.decode(result.body);
-      print(jsonData);
-      if (jsonData['ok'] == true) {
-        final data =
+      final jsonData = json.decode(result.body);      
+      if(jsonData['alerts']['LastEvaluatedKey']==null){
+        if (jsonData['ok'] == true) {
+        final data =      NotMoreAlerts.fromJson(jsonData['alerts'] as Map<String, dynamic>);
+        alertItems = data.items!;             
+      } 
+
+      }else{
+        if (jsonData['ok'] == true) {        
+        if(jsonData['alerts']['Count']==0){
+           alertItems = [];
+        lastEvaluatedKey = 0;
+        }else{
+          final data =
             Alerts.fromJson(jsonData['alerts'] as Map<String, dynamic>);
         alertItems = data.items!;
         lastEvaluatedKey = data.lastEvaluatedKey!.createdAt!;
+        }
       }
+      }
+      
     } catch (e) {
       Future.error(e);
     }
     return [alertItems, lastEvaluatedKey];
   }
   Future<List> getMoreAlerts(int create, String type ) async {
+    
     List<Item> alertItems = [];
     int lastEvaluatedKey =0;    
     try {
@@ -57,19 +71,20 @@ class AlertasProvider {
       String fecha = "2021-07-21";
 
     if(create!=null && create != 0){      
-        final body = {"action": "listAlerts", "date": fecha, "createdAt": create ,"type": type, "limit": 8};
+        final body = {"action": "listAlerts", "createdAt": create ,"type": type, "limit": 8};
 
       final result = await http.post(Uri.parse(_URL),
           body: json.encode(body),
           headers: {'Content-Type': 'application/json'});
       
-      final jsonData = json.decode(result.body);          
+      
+      final jsonData = json.decode(result.body);       
       
     if(jsonData['alerts']['LastEvaluatedKey']==null){
    if (jsonData['ok'] == true) {
         final data =      NotMoreAlerts.fromJson(jsonData['alerts'] as Map<String, dynamic>);
         alertItems = data.items!;
-        // lastEvaluatedKey = data.lastEvaluatedKey!.createdAt!;
+        
         
       } 
     }else{
@@ -85,7 +100,7 @@ class AlertasProvider {
     // alertItems = [];
 
     } catch (e) {
-      Future.error(e);
+      print( 'eee $e');
     }
     return [alertItems, lastEvaluatedKey];
   }
