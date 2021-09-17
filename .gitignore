@@ -1,4 +1,5 @@
 .fvm/flutter_sdk
+.fvm
 # Miscellaneous
 *.class
 *.log
@@ -9,7 +10,7 @@
 .buildlog/
 .history
 .svn/
-
+readme2.md
 # IntelliJ related
 *.iml
 *.ipr
